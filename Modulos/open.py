@@ -11,7 +11,7 @@ except:
 PASS = ''
 BUFLEN = 8196 * 8
 TIMEOUT = 60
-MSG = 'SSHPLUS'
+MSG = 'ENDLESS PROJECT'
 DEFAULT_HOST = '0.0.0.0:1194'
 RESPONSE = "HTTP/1.1 200 " + str(MSG) + "\r\n\r\n"
 
@@ -225,7 +225,7 @@ def main(host=IP, port=PORT):
     print "\033[0;34m━"*8,"\033[1;32m PROXY SOCKS","\033[0;34m━"*8,"\n"
     print "\033[1;33mIP:\033[1;32m " + IP
     print "\033[1;33mPORTA:\033[1;32m " + str(PORT) + "\n"
-    print "\033[0;34m━"*10,"\033[1;32m SSHPLUS","\033[0;34m━\033[1;37m"*11,"\n"
+    print "\033[0;34m━"*10,"\033[1;32m ENDLESS PROJECT","\033[0;34m━\033[1;37m"*11,"\n"
     server = Server(IP, PORT)
     server.start()
     while True:

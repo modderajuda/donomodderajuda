@@ -17,7 +17,7 @@ fun_bar() {
     comando[1]="$2"
     (
         [[ -e $HOME/fim ]] && rm $HOME/fim
-        [[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
+        [[ ! -d /etc/ENDLESSProject ]] && rm -rf /bin/menu
         ${comando[0]} >/dev/null 2>&1
         ${comando[1]} >/dev/null 2>&1
         touch $HOME/fim
@@ -88,23 +88,23 @@ fun_initcheck() {
             }
             verif_ptrs $porta
             fun_check() {
-                screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 1
+                screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 1
                 [[ $(grep -wc "check.py" /etc/autostart) = '0' ]] && {
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 1; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 1; }" >>/etc/autostart
                 } || {
                     sed -i '/check.py/d' /etc/autostart
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 1; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 1; }" >>/etc/autostart
                 }
                 sleep 1
             }
 
             fun_check2() {
-                screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 2
+                screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 2
                 [[ $(grep -wc "check.py" /etc/autostart) = '0' ]] && {
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 2; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 2; }" >>/etc/autostart
                 } || {
                     sed -i '/check.py/d' /etc/autostart
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/check.py $porta 2; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/check.py $porta 2; }" >>/etc/autostart
                 }
                 sleep 1
             }
@@ -177,12 +177,12 @@ fun_initcheck() {
             verif_ptrs $porta
 
             fun_udpon() {
-                screen -dmS 4gcheck python3 /etc/SSHPlus/4gcheck.py $porta
+                screen -dmS 4gcheck python3 /etc/ENDLESSProject/4gcheck.py $porta
                 [[ $(grep -wc "4gcheck.py" /etc/autostart) = '0' ]] && {
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/4gcheck.py $porta; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/4gcheck.py $porta; }" >>/etc/autostart
                 } || {
                     sed -i '/check.py/d' /etc/autostart
-                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/SSHPlus/4gcheck.py $porta; }" >>/etc/autostart
+                    echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS checkuser python3 /etc/ENDLESSProject/4gcheck.py $porta; }" >>/etc/autostart
                 }
                 sleep 1
             }
@@ -230,20 +230,20 @@ inst_depedencias() {
     pip3 install flask >/dev/null 2>&1
 
     # download check.py
-    [[ -e "/etc/SSHPlus/check.py" ]] && {
+    [[ -e "/etc/ENDLESSProject/check.py" ]] && {
         sleep 0.1
     } || {
         cd $HOME
         wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Modulos/check.py -o /dev/null
-        mv -f $HOME/check.py /etc/SSHPlus/check.py
+        mv -f $HOME/check.py /etc/ENDLESSProject/check.py
     }
 
-    [[ -e "/etc/SSHPlus/4gcheck.py" ]] && {
+    [[ -e "/etc/ENDLESSProject/4gcheck.py" ]] && {
         sleep 0.1
     } || {
         cd $HOME
         wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Modulos/4gcheck.py -o /dev/null
-        mv -f $HOME/4gcheck.py /etc/SSHPlus/4gcheck.py
+        mv -f $HOME/4gcheck.py /etc/ENDLESSProject/4gcheck.py
     }
 
     [[ -e "/bin/check" ]] && {
@@ -256,7 +256,7 @@ inst_depedencias() {
     }
 }
 
-[[ -e "/etc/SSHPlus/check.py" ]] && [[ -e "/etc/SSHPlus/4gcheck.py" ]] && [[ -e "/bin/check" ]] && {
+[[ -e "/etc/ENDLESSProject/check.py" ]] && [[ -e "/etc/ENDLESSProject/4gcheck.py" ]] && [[ -e "/bin/check" ]] && {
     fun_initcheck
 } || {
     clear

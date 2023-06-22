@@ -40,18 +40,18 @@ fun_botOnOff() {
         echo -e "\033[1;32mINICIANDO BOT ENDLESS PROJECT \033[0m\n"
         fun_bot1() {
         	[[ "$(grep -wc '16' /etc/issue.net)" != '0' ]] && {
-        		wget -qO- endlessproject.xyz/script/ShellBot.sh > /etc/SSHPlus/ShellBot.sh
+        		wget -qO- endlessproject.xyz/script/ShellBot.sh > /etc/ENDLESSProject/ShellBot.sh
         	}
-            [[ ! -e "/etc/SSHPlus/ShellBot.sh" ]] && {
-				wget -qO- https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/ShellBot.sh >/etc/SSHPlus/ShellBot.sh
+            [[ ! -e "/etc/ENDLESSProject/ShellBot.sh" ]] && {
+				wget -qO- https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/ShellBot.sh >/etc/ENDLESSProject/ShellBot.sh
 			}
-            cd /etc/SSHPlus
+            cd /etc/ENDLESSProject
             screen -dmS bot_plus ./bot $tokenbot $iduser >/dev/null 2>&1
             [[ $(grep -wc "bot_plus" /etc/autostart) = '0' ]] && {
-                echo -e "ps x | grep 'bot_plus' | grep -v 'grep' || cd /etc/SSHPlus && sudo screen -dmS bot_plus ./bot $tokenbot $iduser && cd $HOME" >>/etc/autostart
+                echo -e "ps x | grep 'bot_plus' | grep -v 'grep' || cd /etc/ENDLESSProject && sudo screen -dmS bot_plus ./bot $tokenbot $iduser && cd $HOME" >>/etc/autostart
             } || {
                 sed -i '/bot_plus/d' /etc/autostart
-                echo -e "ps x | grep 'bot_plus' | grep -v 'grep' || cd /etc/SSHPlus && sudo screen -dmS bot_plus ./bot $tokenbot $iduser && cd $HOME" >>/etc/autostart
+                echo -e "ps x | grep 'bot_plus' | grep -v 'grep' || cd /etc/ENDLESSProject && sudo screen -dmS bot_plus ./bot $tokenbot $iduser && cd $HOME" >>/etc/autostart
             }
             [[ $(crontab -l | grep -c "verifbot") = '0' ]] && (
                 crontab -l 2>/dev/null
@@ -60,7 +60,7 @@ fun_botOnOff() {
             cd $HOME
         }
         fun_bar 'fun_bot1'
-        [[ $(ps x | grep "bot_plus" | grep -v grep | wc -l) != '0' ]] && echo -e "\n\033[1;32m BOT SSHPLUS ATIVADO !\033[0m" || echo -e "\n\033[1;31m ERRO! REANALISE SUAS INFORMACOES\033[0m"
+        [[ $(ps x | grep "bot_plus" | grep -v grep | wc -l) != '0' ]] && echo -e "\n\033[1;32m BOT ENDLESS PROJECT ATIVADO !\033[0m" || echo -e "\n\033[1;31m ERRO! REANALISE SUAS INFORMACOES\033[0m"
         sleep 2
         menu
     } || {
@@ -99,5 +99,5 @@ fun_instbot() {
         menu
     }
 }
-[[ -f "/etc/SSHPlus/ShellBot.sh" ]] && fun_botOnOff || fun_instbot
+[[ -f "/etc/ENDLESSProject/ShellBot.sh" ]] && fun_botOnOff || fun_instbot
 #fim
