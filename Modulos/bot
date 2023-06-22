@@ -1,5 +1,5 @@
 #!/bin/bash
-[[ ! -d /etc/EndlessProject ]] && exit 0
+[[ ! -d /etc/SSHPlus ]] && exit 0
 [[ ! -d /etc/bot ]] && exit 0
 source ShellBot.sh
 api_bot=$1
@@ -14,7 +14,7 @@ fun_menu() {
     [[ "${message_from_id[$id]}" == "$id_admin" ]] && {
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>SEJA BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>SEJA BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>SELECIONE UMA OPCAO ABAIXO !</i>\n\n"
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "$env_msg" \
@@ -30,7 +30,7 @@ fun_menu() {
     if [[ "$(grep -w "${message_from_username}" $ativos | grep -wc 'revenda')" != '0' ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>SEJA BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>SEJA BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>SELECIONE UMA OPCAO ABAIXO !</i>\n\n"
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "$env_msg" \
@@ -40,7 +40,7 @@ fun_menu() {
     elif [[ "$(grep -w "${message_from_username}" $ativos | grep -wc 'subrevenda')" != '0' ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>SEJA BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>SEJA BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>SELECIONE UMA OPCAO ABAIXO !</i>\n\n"
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} --text "$env_msg" \
@@ -65,7 +65,7 @@ fun_ajuda() {
     if [[ "$id_chatuser" = "$id_admin" ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>Comandos Disponiveis</i>\n\n"
         env_msg+="[<b>01</b>] /menu = Exibe menu\n"
@@ -101,7 +101,7 @@ fun_ajuda() {
     elif [[ "$(grep -w "$id_name" $ativos | awk '{print $NF}')" == 'revenda' ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>Comandos Disponiveis</i>\n\n"
         env_msg+="[<b>01</b>] /menu = Exibe menu\n"
@@ -127,7 +127,7 @@ fun_ajuda() {
     elif [[ "$(grep -w "$id_name" $ativos | awk '{print $NF}')" == 'subrevenda' ]]; then
         local env_msg
         env_msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        env_msg+="<b>BEM VINDO(a) AO BOT SSH</b>\n"
+        env_msg+="<b>BEM VINDO(a) AO BOT ENDLESS PROJECT</b>\n"
         env_msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
         env_msg+="⚠️ <i>Comandos Disponiveis</i>\n\n"
         env_msg+="[<b>01</b>] /menu = Exibe menu\n"
@@ -215,7 +215,7 @@ criar_user() {
         echo "$usuario:$senha:$info_data:$limite" >/etc/bot/info-users/$usuario
     }
     echo "$usuario $limite" >>/root/usuarios.db
-    echo "$senha" >/etc/EndlessProject/senha/$usuario
+    echo "$senha" >/etc/SSHPlus/senha/$usuario
     [[ -e "/etc/openvpn/server.conf" ]] && {
         cd /etc/openvpn/easy-rsa/
         ./easyrsa build-client-full $usuario nopass
@@ -248,7 +248,7 @@ fun_del_user() {
         userdel --force "$usuario" 2>/dev/null
         grep -v ^$usuario[[:space:]] /root/usuarios.db >/tmp/ph
         cat /tmp/ph >/root/usuarios.db
-        rm /etc/EndlessProject/senha/$usuario >/dev/null 2>&1
+        rm /etc/SSHPlus/senha/$usuario >/dev/null 2>&1
     } || {
         [[ ! -e /etc/bot/revenda/${message_from_username}/usuarios/$usuario ]] && {
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -262,11 +262,11 @@ fun_del_user() {
         userdel --force "$usuario" 2>/dev/null
         grep -v ^$usuario[[:space:]] /root/usuarios.db >/tmp/ph
         cat /tmp/ph >/root/usuarios.db
-        rm /etc/EndlessProject/senha/$usuario >/dev/null 2>&1
+        rm /etc/SSHPlus/senha/$usuario >/dev/null 2>&1
         rm /etc/bot/revenda/${message_from_username}/usuarios/$usuario
         rm /etc/bot/info-users/$usuario
     }
-    [[ -e /etc/EndlessProject/userteste/$usuario.sh ]] && rm /etc/EndlessProject/userteste/$usuario.sh
+    [[ -e /etc/SSHPlus/userteste/$usuario.sh ]] && rm /etc/SSHPlus/userteste/$usuario.sh
     [[ -e "/etc/openvpn/easy-rsa/pki/private/$usuario.key" ]] && {
         [[ -e /etc/debian_version ]] && GROUPNAME=nogroup
         cd /etc/openvpn/easy-rsa/
@@ -303,7 +303,7 @@ alterar_senha_user() {
     usuario=$1
     senha=$2
     echo "$usuario:$senha" | chpasswd
-    echo "$senha" >/etc/EndlessProject/senha/$usuario
+    echo "$senha" >/etc/SSHPlus/senha/$usuario
     [[ -e /etc/bot/revenda/${message_from_username}/usuarios/$usuario ]] && {
         senha2=$(cat /etc/bot/revenda/${message_from_username}/usuarios/$usuario | awk -F : {'print $2'})
         sed -i "/$usuario/ s/\b$senha2\b/$senha/g" /etc/bot/revenda/${message_from_username}/usuarios/$usuario
@@ -439,7 +439,7 @@ ver_users() {
             local info
             for user in $(cat /etc/passwd | awk -F : '$3 >= 1000 {print $1}' | grep -v nobody); do
                 info='===========================\n'
-                [[ -e /etc/EndlessProject/senha/$user ]] && senha=$(cat /etc/EndlessProject/senha/$user) || senha='Null'
+                [[ -e /etc/SSHPlus/senha/$user ]] && senha=$(cat /etc/SSHPlus/senha/$user) || senha='Null'
                 [[ $(grep -wc $user $HOME/usuarios.db) != '0' ]] && limite=$(grep -w $user $HOME/usuarios.db | cut -d' ' -f2) || limite='Null'
                 datauser=$(chage -l $user | grep -i co | awk -F : '{print $2}')
                 [[ $datauser = ' never' ]] && {
@@ -491,7 +491,7 @@ ver_users() {
             local info
             for user in $(ls /etc/bot/revenda/${callback_query_from_username}/usuarios); do
                 info='===========================\n'
-                [[ -e /etc/EndlessProject/senha/$user ]] && senha=$(cat /etc/EndlessProject/senha/$user) || senha='Null'
+                [[ -e /etc/SSHPlus/senha/$user ]] && senha=$(cat /etc/SSHPlus/senha/$user) || senha='Null'
                 [[ $(grep -wc $user $HOME/usuarios.db) != '0' ]] && limite=$(grep -w $user $HOME/usuarios.db | cut -d' ' -f2) || limite='Null'
                 datauser=$(chage -l $user | grep -i co | awk -F : '{print $2}')
                 [[ $datauser = ' never' ]] && {
@@ -866,7 +866,7 @@ backup_users() {
     rm /root/backup.vps 1>/dev/null 2>/dev/null
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ CRIANDO BACKUP DE USUARIOS"
-    tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/bot /etc/EndlessProject/senha 1>/dev/null 2>/dev/null
+    tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/bot /etc/SSHPlus/senha 1>/dev/null 2>/dev/null
     ShellBot.sendDocument --chat_id ${id_admin} \
         --document "@/root/backup.vps" \
         --caption "$(echo -e "♻️ BACKUP DE USUARIOS ♻️")"
@@ -876,8 +876,10 @@ backup_users() {
 sobremim() {
     local msg
     msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-    msg+="<b>🤖 BOT  SSH  🤖</b>\n"
+    msg+="<b>🤖 BOT ENDLESS PROJECT 🤖</b>\n"
     msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
+    msg+="<b>Editado por:</b> @Niltonjuniornzx\n"
+    msg+="<b>Canal:</b> @NEXYSSH\n\n"
     msg+="Fui criado com o propósito de fornecer informações e ferramentas para gestão VPN em servidores 🐧 GNU/Linux 🐧.\n\n"
     msg+="<b>Menu:</b> /menu\n"
     ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
@@ -916,7 +918,7 @@ fun_add_teste() {
 }
 
 fun_teste() {
-    usuario=$(echo TESTE$((RANDOM % +500)))
+    usuario=$(echo teste$((RANDOM % +500)))
     senha='1234'
     limite='1'
     t_time=$1
@@ -934,24 +936,24 @@ fun_teste() {
         echo "$senha"
         echo "$senha"
     ) | passwd $usuario >/dev/null 2>&1
-    echo "$senha" >/etc/EndlessProject/senha/$usuario
+    echo "$senha" >/etc/SSHPlus/senha/$usuario
     echo "$usuario $limite" >>/root/usuarios.db
     [[ "${message_from_id[$id]}" != "$id_admin" ]] && {
         echo "$usuario:$senha:$ex_date:$limite" >/etc/bot/revenda/${message_from_username}/usuarios/$usuario
     }
     dir_teste="/etc/bot/revenda/${message_from_username}/usuarios/$usuario"
-    cat <<-EOF >/etc/EndlessProject/userteste/$usuario.sh
+    cat <<-EOF >/etc/SSHPlus/userteste/$usuario.sh
 	#!/bin/bash
 	# USUARIO TESTE
 	[[ \$(ps -u "$usuario" | grep -c sshd) != '0' ]] && pkill -u $usuario
 	userdel --force $usuario
 	grep -v ^$usuario[[:space:]] /root/usuarios.db > /tmp/ph ; cat /tmp/ph > /root/usuarios.db
 	[[ -e $dir_teste ]] && rm $dir_teste
-	rm /etc/EndlessProject/senha/$usuario > /dev/null 2>&1
-	rm /etc/EndlessProject/userteste/$usuario.sh
+	rm /etc/SSHPlus/senha/$usuario > /dev/null 2>&1
+	rm /etc/SSHPlus/userteste/$usuario.sh
 	EOF
-    chmod +x /etc/EndlessProject/userteste/$usuario.sh
-    echo "/etc/EndlessProject/userteste/$usuario.sh" | at now + $t_time hour >/dev/null 2>&1
+    chmod +x /etc/SSHPlus/userteste/$usuario.sh
+    echo "/etc/SSHPlus/userteste/$usuario.sh" | at now + $t_time hour >/dev/null 2>&1
     [[ "$t_time" == '1' ]] && hrs="hora" || hrs="horas"
     [[ "$(ls /etc/bot/arquivos | wc -l)" != '0' ]] && {
         for arqv in $(ls /etc/bot/arquivos); do
@@ -963,7 +965,7 @@ fun_teste() {
         return 0
     } || {
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-            --text "$(echo -e "✅ <b>Criado com sucesso</b> ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $t_time $hrs")" \
+            --text "$(echo -e "✅ <b>Criado com sucesso</b> ✅\n\nIP: $(cat /etc/IP)\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $t_time $hrs")" \
             --parse_mode html
         return 0
     }
@@ -989,7 +991,7 @@ fun_exp_user() {
             grep -v ^$user[[:space:]] /root/usuarios.db >/tmp/ph
             cat /tmp/ph >/root/usuarios.db
             [[ -e /etc/bot/info-users/$user ]] && rm /etc/bot/info-users/$user
-            [[ -e /etc/EndlessProject/userteste/$user.sh ]] && rm /etc/EndlessProject/userteste/$user.sh
+            [[ -e /etc/SSHPlus/userteste/$user.sh ]] && rm /etc/SSHPlus/userteste/$user.sh
             [[ "$(ls /etc/bot/revenda)" != '0' ]] && {
                 for ex in $(ls /etc/bot/revenda); do
                     [[ -e /etc/bot/revenda/$exp/usuarios/$user ]] && rm /etc/bot/revenda/$ex/usuarios/$user
@@ -1023,7 +1025,7 @@ fun_exp_user() {
             userdel --force $user
             grep -v ^$user[[:space:]] /root/usuarios.db >/tmp/ph
             cat /tmp/ph >/root/usuarios.db
-            [[ -e /etc/EndlessProject/userteste/$user.sh ]] && rm /etc/EndlessProject/userteste/$user.sh
+            [[ -e /etc/SSHPlus/userteste/$user.sh ]] && rm /etc/SSHPlus/userteste/$user.sh
             [[ -e "$dir_user/$user" ]] && rm $dir_user/$user
         done
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1191,8 +1193,8 @@ relatorio_rev() {
 
 fun_backauto() {
     [[ "${callback_query_from_id[$id]}" = "$id_admin" ]] && {
-        [[ ! -d /etc/EndlessProject/backups ]] && {
-            mkdir /etc/EndlessProject/backups
+        [[ ! -d /etc/SSHPlus/backups ]] && {
+            mkdir /etc/SSHPlus/backups
             [[ $(crontab -l | grep -c "userbackup") = '0' ]] && (
                 crontab -l 2>/dev/null
                 echo "0 */6 * * * /bin/userbackup 1"
@@ -1203,7 +1205,7 @@ fun_backauto() {
             return 0
         } || {
             [[ $(crontab -l | grep -c "userbackup") != '0' ]] && crontab -l | grep -v 'userbackup' | crontab -
-            [[ -d /etc/EndlessProject/backups ]] && rm -rf /etc/EndlessProject/backups
+            [[ -d /etc/SSHPlus/backups ]] && rm -rf /etc/SSHPlus/backups
             ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
                 --text "♻️ BACKUP AUTOMATICO DESATIVADO 🔴"
             return 0
@@ -1213,9 +1215,9 @@ fun_backauto() {
 
 backup_auto() {
     ShellBot.sendDocument --chat_id $id_admin \
-        --document "@/etc/EndlessProject/backups/backup.vps" \
+        --document "@/etc/SSHPlus/backups/backup.vps" \
         --caption "$(echo -e "♻️ BACKUP AUTOMATICO ♻️")"
-    rm /etc/EndlessProject/backups/backup.vps
+    rm /etc/SSHPlus/backups/backup.vps
     return 0
 }
 
@@ -1342,7 +1344,7 @@ fun_del_rev() {
     }
     [[ "${callback_query_from_id[$id]}" == "$id_admin" ]] || [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]] && {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
-            --text "🗑 REMOVER REVENDEDOR 🗑\n\nInforme o user dele [Ex: @Niltonjuniornzx]:" \
+            --text "🗑 REMOVER REVENDEDOR 🗑\n\nInforme o user dele [Ex: @crazy_vpn]:" \
             --reply_markup "$(ShellBot.ForceReply)"
     } || {
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1460,7 +1462,7 @@ fun_lim_rev() {
     }
     [[ "${callback_query_from_id[$id]}" == "$id_admin" ]] || [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]] && {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
-            --text "♾ ALTERAR LIMITE REVENDA ♾\n\nInforme o user dele [Ex: @Niltonjuniornzx]:" \
+            --text "♾ ALTERAR LIMITE REVENDA ♾\n\nInforme o user dele [Ex: @crazy_vpn]:" \
             --reply_markup "$(ShellBot.ForceReply)"
     } || {
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1506,7 +1508,7 @@ fun_dat_rev() {
     }
     [[ "${callback_query_from_id[$id]}" == "$id_admin" ]] || [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]] && {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
-            --text "📆 ALTERAR DATA REVENDA 📆\n\nInforme o user dele [Ex: @Niltonjuniornzx]:" \
+            --text "📆 ALTERAR DATA REVENDA 📆\n\nInforme o user dele [Ex: @crazy_vpn]:" \
             --reply_markup "$(ShellBot.ForceReply)"
     } || {
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1618,7 +1620,7 @@ fun_susp_rev() {
     }
     [[ "${callback_query_from_id[$id]}" == "$id_admin" ]] || [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]] && {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
-            --text "🔒 SUSPENDER REVENDEDOR 🔒\n\nInforme o user dele [Ex: @Niltonjuniornzx]:" \
+            --text "🔒 SUSPENDER REVENDEDOR 🔒\n\nInforme o user dele [Ex: @crazy_vpn]:" \
             --reply_markup "$(ShellBot.ForceReply)"
     } || {
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1845,7 +1847,7 @@ unset keyboard4
 keyboard4="$(ShellBot.InlineKeyboardMarkup -b 'menu4')"
 
 while :; do
-    [[ -e "/etc/EndlessProject/backups/backup.vps" ]] && {
+    [[ -e "/etc/SSHPlus/backups/backup.vps" ]] && {
         backup_auto
     }
     #Obtem as atualizações
@@ -1905,7 +1907,7 @@ while :; do
                     sizemax=$(echo -e ${#message_text[$id]})
                     [[ "$sizemax" -gt '10' ]] && {
                         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-                            --text "$(echo -e "❌ Erro !\n\nUse no maximo 8 caracteres\n[EX: vps]")" \
+                            --text "$(echo -e "❌ Erro !\n\nUse no maximo 8 caracteres\n[EX: crazy]")" \
                             --parse_mode html
                         >$CAD_ARQ
                         break
@@ -1988,7 +1990,7 @@ while :; do
                             --reply_markup "$(ShellBot.ForceReply)"
                     } || {
                         ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
+                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nIP: $(cat /etc/IP)\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
                             --parse_mode html
                         break
                     }
@@ -2001,7 +2003,7 @@ while :; do
                             --text "$(echo -e "❌ Opcao Invalida ❌\n\n⚠️ Ultilize apenas letras [EX: sim ou nao]")" \
                             --parse_mode html
                         ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
+                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nIP: $(cat /etc/IP)\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
                             --parse_mode html
                         break
                     }
@@ -2021,7 +2023,7 @@ while :; do
                             --reply_markup "$(ShellBot.ForceReply)"
                     } || {
                         ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
+                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nIP: $(cat /etc/IP)\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
                             --parse_mode html
                     }
                     ;;
@@ -2033,7 +2035,7 @@ while :; do
                             --text "$(echo -e "❌ Opcao Invalida ❌ \n\n⚠️ Ultilize apenas numeros [EX: 1]")" \
                             --parse_mode html
                         ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
+                            --text "<b>✅ CRIADO COM SUCESSO ✅</b>\n\nIP: $(cat /etc/IP)\nUSUARIO: <code>$(awk -F " " '/Nome/ {print $2}' $CAD_ARQ)</code>\nSENHA: <code>$(awk -F " " '/Senha/ {print $2}' $CAD_ARQ)</code>\nLIMITE: $(awk -F " " '/Limite/ {print $2}' $CAD_ARQ)\nEXPIRA EM: $(awk -F " " '/Validade/ {print $2}' $CAD_ARQ)" \
                             --parse_mode html
                         >$CAD_ARQ
                         break
@@ -2268,16 +2270,16 @@ while :; do
                     [[ "$_erro" == '1' ]] && break
                     echo "Nome: ${message_text[$id]}" >$CAD_ARQ
                     ShellBot.sendMessage --chat_id ${message_from_id[$id]} \
-                        --text 'Informe o user dele [Ex: @Niltonjuniornzx]:' \
+                        --text 'Informe o user dele [Ex: @crazy_vpn]:' \
                         --reply_markup "$(ShellBot.ForceReply)"
                     ;;
-                'Informe o user dele [Ex: @Niltonjuniornzx]:')
+                'Informe o user dele [Ex: @crazy_vpn]:')
                     verifica_acesso
                     [[ "$_erro" == '1' ]] && break
                     _VAR1=$(echo -e ${message_text[$id]} | awk -F '@' {'print $2'})
                     [[ -z $_VAR1 ]] && {
                         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-                            --text "$(echo -e "❌ Erro \n\n⚠️ Informe o user [EX: @Niltonjuniornzx]")" \
+                            --text "$(echo -e "❌ Erro \n\n⚠️ Informe o user [EX: @crazy_vpn]")" \
                             --parse_mode html
                         break
                     }
@@ -2329,7 +2331,7 @@ while :; do
                         --parse_mode html
                     ;;
                     # REMOVE REVENDEDOR
-                '🗑 REMOVER REVENDEDOR 🗑\n\nInforme o user dele [Ex: @Niltonjuniornzx]:')
+                '🗑 REMOVER REVENDEDOR 🗑\n\nInforme o user dele [Ex: @crazy_vpn]:')
                     echo -e "${message_text[$id]}" >$CAD_ARQ
                     _Var=$(sed -n '1 p' $CAD_ARQ | awk -F '@' {'print $2'})
                     [[ -z $_Var ]] && {
@@ -2342,7 +2344,7 @@ while :; do
                     break
                     ;;
                     # ALTERAR LIMITE
-                '♾ ALTERAR LIMITE REVENDA ♾\n\nInforme o user dele [Ex: @Niltonjuniornzx]:')
+                '♾ ALTERAR LIMITE REVENDA ♾\n\nInforme o user dele [Ex: @crazy_vpn]:')
                     verifica_acesso
                     [[ "$_erro" == '1' ]] && break
                     echo -e "Revendedor: ${message_text[$id]}" >$CAD_ARQ
@@ -2419,7 +2421,7 @@ while :; do
                         --parse_mode html
                     # ALTERAR DATA
                     ;;
-                '📆 ALTERAR DATA REVENDA 📆\n\nInforme o user dele [Ex: @Niltonjuniornzx]:')
+                '📆 ALTERAR DATA REVENDA 📆\n\nInforme o user dele [Ex: @crazy_vpn]:')
                     verifica_acesso
                     [[ "$_erro" == '1' ]] && break
                     _VAR1=$(echo -e ${message_text[$id]} | awk -F '@' {'print $2'})
@@ -2474,7 +2476,7 @@ while :; do
                         --parse_mode html
                     ;;
                     # SUSPENDER REVENDEDOR
-                '🔒 SUSPENDER REVENDEDOR 🔒\n\nInforme o user dele [Ex: @Niltonjuniornzx]:')
+                '🔒 SUSPENDER REVENDEDOR 🔒\n\nInforme o user dele [Ex: @crazy_vpn]:')
                     _VAR1=$(echo -e ${message_text[$id]} | awk -F '@' {'print $2'})
                     [[ -z $_VAR1 ]] && {
                         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \

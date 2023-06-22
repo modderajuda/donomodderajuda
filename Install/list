@@ -1,5 +1,8 @@
 #!/bin/bash
-_lvk=$(wget -qO- https://raw.githubusercontent.com/Niltonjuniorxd/scriptssh/main/versao)
+
+
+
+_lvk=$(wget -qO- https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Sistema/versao)
 IP=$(wget -qO- ipv4.icanhazip.com)
 IP2=$(wget -qO- http://whatismyip.akamai.com/)
 [[ "$IP" != "$IP2" ]] && ipdovps="$IP2" || ipdovps="$IP"
@@ -11,18 +14,17 @@ dpkg-reconfigure --frontend noninteractive tzdata >/dev/null 2>&1
 [[ -z $lst1 ]] && {
 	rm -rf $_Ink/list >/dev/null 2>&1 && cat /dev/null >~/.bash_history && history -c && exit 0
 }
-[[ ! -d /etc/EndlessProject ]] && mkdir /etc/EndlessProject
-[[ ! -d /etc/EndlessProject/v2ray ]] && mkdir /etc/EndlessProject/v2ray
-[[ ! -d /etc/EndlessProject/senha ]] && mkdir /etc/EndlessProject/senha
-[[ ! -e /etc/EndlessProject/Exp ]] && touch /etc/EndlessProject/Exp
-[[ ! -d /etc/EndlessProject/userteste ]] && mkdir /etc/EndlessProject/userteste
-[[ ! -d /etc/EndlessProject/.tmp ]] && mkdir /etc/EndlessProject/.tmp
+[[ ! -d /etc/SSHPlus ]] && mkdir /etc/SSHPlus
+[[ ! -d /etc/SSHPlus/v2ray ]] && mkdir /etc/SSHPlus/v2ray
+[[ ! -d /etc/SSHPlus/senha ]] && mkdir /etc/SSHPlus/senha
+[[ ! -e /etc/SSHPlus/Exp ]] && touch /etc/SSHPlus/Exp
+[[ ! -d /etc/SSHPlus/userteste ]] && mkdir /etc/SSHPlus/userteste
+[[ ! -d /etc/SSHPlus/.tmp ]] && mkdir /etc/SSHPlus/.tmp
 [[ ! -d /etc/bot ]] && mkdir /etc/bot
 [[ ! -d /etc/bot/info-users ]] && mkdir /etc/bot/info-users
 [[ ! -d /etc/bot/arquivos ]] && mkdir /etc/bot/arquivos
 [[ ! -d /etc/bot/revenda ]] && mkdir /etc/bot/revenda
 [[ ! -d /etc/bot/suspensos ]] && mkdir /etc/bot/suspensos
-[[ ! -d /etc/rec ]] && mkdir /etc/rec
 [[ ! -e /etc/bot/lista_ativos ]] && touch /etc/bot/lista_ativos
 [[ ! -e /etc/bot/lista_suspensos ]] && touch /etc/bot/lista_suspensos
 netstat -nplt | grep -w 'apache2' | grep -w '80' && sed -i "s/Listen 80/Listen 81/g" /etc/apache2/ports.conf && service apache2 restart
@@ -30,9 +32,9 @@ netstat -nplt | grep -w 'apache2' | grep -w '80' && sed -i "s/Listen 80/Listen 8
 grep -v "^PasswordAuthentication" /etc/ssh/sshd_config >/tmp/passlogin && mv /tmp/passlogin /etc/ssh/sshd_config
 echo "PasswordAuthentication yes" >>/etc/ssh/sshd_config
 _dir1='/bin'
-_dir2='/etc/EndlessProject'
+_dir2='/etc/SSHPlus'
 rm $_dir2/ShellBot.sh $_dir2/cabecalho $_dir2/open.py $_dir2/proxy.py $_dir2/wsproxy.py >/dev/null 2>&1
-_mdls=("alterarsenha" "criarusuario" "expcleaner" "mudardata" "remover" "criarteste" "verifbot" "droplimiter" "attscript" "alterarlimite" "ajuda" "sshmonitor" "badvpn" "userbackup" "instsqd" "blockt" "otimizar" "menu" "speedtest" "banner" "senharoot" "reiniciarservicos" "reiniciarsistema" "attscript" "conexao" "delscript" "detalhes" "botssh" "infousers" "verifatt" "limiter" "uexpired" "cabecalho" "bot" "open.py" "proxy.py" "wsproxy.py" "swapmemory" "websocket.sh" "blockuser" "multi" "tcptweaker.sh" "blockuser" "trojan-go" "blocksite" "initcheck" "instcheck" "slowdns")
+_mdls=("addhost" "initcheck" "delhost" "alterarsenha" "criarusuario" "expcleaner" "mudardata" "remover" "criarteste" "verifbot" "droplimiter" "alterarlimite" "ajuda" "sshmonitor" "badvpn" "userbackup" "instsqd" "blockt" "otimizar" "menu" "speedtest" "banner" "senharoot" "reiniciarservicos" "reiniciarsistema" "attscript" "conexao" "delscript" "detalhes" "botssh" "infousers" "verifatt" "limiter" "uexpired" "cabecalho" "bot" "open.py" "slow_dns" "proxy.py" "wsproxy.py" "trojan-go")
 for _arq in ${_mdls[@]}; do
 	[[ -e $_dir1/$_arq ]] && rm $_dir1/$_arq >/dev/null 2>&1
 	wget -c -P $_dir1 https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Modulos/$_arq
@@ -46,7 +48,7 @@ _host[2]="portalrecarga.vivo.com.br/recarga"
 _host[3]="navegue.vivo.com.br/controle/"
 _host[4]="navegue.vivo.com.br/pre/"
 _host[5]="www.whatsapp.net"
-_host[6]="/ENDLESSPROJECT?"
+_host[6]="/SSHPLUS?"
 for host in ${_host[@]}; do
 	if [[ "$(grep -w "$host" $_arq_host | wc -l)" = "0" ]]; then
 		sed -i "3i\127.0.0.1 $host" $_arq_host
@@ -76,7 +78,7 @@ crontab -r >/dev/null 2>&1
 	echo "* * * * * /etc/autostart"
 	echo "0 */6 * * * /bin/uexpired"
 ) | crontab -
-echo "$_lvk" | sed -n '1 p' | cut -d' ' -f2 >/bin/versao && cat /bin/versao >/home/EndlessProject
+echo "$_lvk" | sed -n '1 p' | cut -d' ' -f2 >/bin/versao && cat /bin/versao >/home/endlessproject
 wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/jq-linux64 >/dev/null 2>&1
 chmod +x jq-linux64 && mv jq-linux64 $(which jq)
 service cron restart >/dev/null 2>&1
