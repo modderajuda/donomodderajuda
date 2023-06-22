@@ -1,6 +1,10 @@
 #!/bin/bash
 clear
-
+[[ "$(whoami)" != "root" ]] && {
+	clear
+	echo -e "\033[1;31mEXECULTE COMO USUARIO ROOT, \033[1;32m(\033[1;33msudo -i\033[1;32m)\033[0m"
+	exit
+}
 [[ $(grep -c "prohibit-password" /etc/ssh/sshd_config) != '0' ]] && {
 	sed -i "s/prohibit-password/yes/g" /etc/ssh/sshd_config
 } > /dev/null
@@ -20,4 +24,17 @@ clear
 	sed -i "s/#PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 } > /dev/null
 service ssh restart > /dev/null
-clear; echo -e "\033[1;32mA SEGUIR DEFINA A SENHA ROOT\033[0m"; sleep 2s; passwd && rm senharoot.sh
+iptables -F
+iptables -A INPUT -p tcp --dport 81 -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8799 -j ACCEPT
+iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+iptables -A INPUT -p tcp --dport 1194 -j ACCEPT
+clear && echo -ne "\033[1;32mDEFINA A SENHA ROOT\033[1;37m: "; read senha
+[[ -z "$senha" ]] && {
+echo -e "\n\033[1;31mSENHA INVALIDA !\033[0m"
+exit 0
+}
+echo "root:$senha" | chpasswd
+echo -e "\n\033[1;31m[ \033[1;33mOK ! \033[1;31m]\033[1;37m - \033[1;32mSENHA DEFINIDA ! \033[0m"

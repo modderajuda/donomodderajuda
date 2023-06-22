@@ -1,0 +1,236 @@
+#!/bin/bash
+clear
+menu(){
+FILE=sites.cake
+if [ -f "$FILE" ]; then
+clear
+else
+touch sites.cake
+fi
+black='\033[0;30m'
+red='\033[0;31m'
+green='\033[0;32m'
+browno='\033[0;33m'
+blue='\033[0;34m'
+purple='\033[0;35m'
+cyan='\033[0;36m'
+lightgray='\033[0;37m'
+darkgray='\033[1;30m'
+lightred='\033[1;31m'
+lightgreen='\033[1;32m'
+yellow='\033[1;37m'
+lightblue='\033[1;34m'
+lightpurple='\033[1;35m'
+lightcyan='\033[1;36m'
+white='\033[1;37m'
+clear
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\E[44;1;37m                   BLOQUEAR WEBSITE                    \E[0m"
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;37mBLOQUEIO PARA TUNELAMENTO SSH (VPN)!\033[0m"
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;37mUSE SITE COMO \033[1;31mwww.xvideo.com \033[1;37mPARA BLOQUEAR!"
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;31m[\033[1;36m01\033[1;31m] \033[1;37m• \033[1;37mBLOQUEAR SITE" 
+echo -e "\033[1;31m[\033[1;36m02\033[1;31m] \033[1;37m• \033[1;37mDESBLOQUEAR SITE" 
+echo -e "\033[1;31m[\033[1;36m03\033[1;31m] \033[1;37m• \033[1;37mDESBLOQUEAR TODOS OS SITES" 
+echo -e "\033[1;31m[\033[1;36m04\033[1;31m] \033[1;37m• \033[1;37mVISUALIZAR LISTA BLOQUEADA" 
+echo -e "\033[1;31m[\033[1;36m00\033[1;31m] \033[1;37m• \033[1;37mVOLTAR AO MENU ANTERIOR" 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -ne "\033[1;32mOQUE DESEJA FAZER \033[1;37m?\033[1;31m?\033[1;37m "
+read x
+case $x in
+	01|1) block ;;
+	02|2) unblock ;;
+	03|3) unblockall ;;
+	04|4) view ;;
+        00|0) bash menu ;;
+        *)
+menu
+esac
+}
+menu
+block(){
+clear
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "                     BLOQUEAR SITE         " 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;31m[\033[1;36m01\033[1;31m] \033[1;37m• \033[1;37mBLOQUEAR SITE" 
+echo -e "\033[1;31m[\033[1;36m02\033[1;31m] \033[1;37m• \033[1;37mVOLTAR AO MENU" 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -ne "\033[1;32mOQUE DESEJA FAZER \033[1;37m?\033[1;31m?\033[1;37m "; read option
+if [ "$option" = "1" ]; then 
+clear
+echo ""
+echo -e "DIGITE O SITE "
+echo ""
+read website
+if [ -z $website ]; then
+clear
+echo ""
+echo -e "\033[1;31mOPS! ESTA VAZIO. DIGITE UM SITE REAL, \033[1;37mEX; www.google.com"
+echo ""
+sleep 1s
+block
+else
+clear
+cat sites.cake | grep $website && site=1 || site=0
+clear
+if [ "$site" = "1" ]; then
+clear
+echo -e "DIGITE O SITE " 
+echo ""
+echo -e "O SITE $website JA ESTA BLOQUEADO!"
+sleep 1s
+block
+elif [ "$site" = "0" ]; then
+iptables -A INPUT -s $website -j DROP && iptables -A FORWARD -s $website  -j DROP
+echo "$website" >> sites.cake
+clear
+echo -e "SITE BLOQUEADO!: $website"
+sleep 1s
+block
+else
+clear
+echo "VIOLADO!"
+sleep 1s
+block
+fi
+fi
+elif [ "$option" = "2" ]; then
+menu
+else
+clear
+echo -e "DIGITE APENAS 1 OU 2"
+sleep 1s
+block
+fi
+}
+
+unblock(){
+clear
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "                  DESBLOQUEAR SITE" 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;31m[\033[1;36m01\033[1;31m] \033[1;37m• \033[1;37mDESBLOQUEAR SITE" 
+echo -e "\033[1;31m[\033[1;36m02\033[1;31m] \033[1;37m• \033[1;37mVOLTAR AO MENU" 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -ne "\033[1;32mOQUE DESEJA FAZER \033[1;37m?\033[1;31m?\033[1;37m "
+read option
+if [ "$option" = "1" ]; then
+clear
+echo ""
+echo -e "DIGITE O SITE "
+echo ""
+read website
+if [ -z $website ]; then
+clear
+echo ""
+echo -e "\033[1;31mOPS! ESTA VAZIO. DIGITE UM SITE REAL, \033[1;37mEX; www.google.com"
+echo ""
+sleep 1s
+unblock
+else
+clear
+cat sites.cake | grep $website && site=1 || site=0
+clear
+if [ "$site" = "0" ]; then
+clear
+echo ""
+echo ""
+echo -e "O SITE $website JA ESTA DESBLOQUEADO!"
+sleep 1s
+unblock
+elif [ "$site" = "1" ]; then
+iptables -D INPUT -s $website -j DROP && iptables -D FORWARD -s $website  -j DROP
+grep -v "$website" sites.cake > temp && mv temp sites.cake
+clear
+echo ""
+echo ""
+echo -e "SITE DESBLOQUEADO!: $website"
+sleep 1s
+unblock
+else
+clear
+echo "VIOLADO!"
+sleep 1s
+unblock
+fi
+fi
+elif [ "$option" = "2" ]; then
+menu
+else
+clear
+echo -e "APENAS 1 OU 2 ! "
+sleep 1s
+unblock
+fi
+}
+
+view()
+{
+clear
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "                    SITE BLOQUEADOS        " 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+printf "${yellow}"
+cat sites.cake
+printf "${white}"
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -ne "\033[1;31mENTER \033[1;37mPARA VOLTAR AO MENU \033[0m"
+read cake
+menu
+}
+unblockall()
+{
+FILE=sites.cake
+if [ -f "$FILE" ]; then
+clear
+else
+touch sites.cake
+fi
+clear
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "                     DESBLOQUEAR        " 
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -e "\033[1;31m[\033[1;36m01\033[1;31m] \033[1;37m• \033[1;37mDESBLOQUEAR SITE"
+echo -e "\033[1;31m[\033[1;36m02\033[1;31m] \033[1;37m• \033[1;37mVOLTAR AO MENU"
+echo -e "\033[0;37m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+echo -ne "\033[1;32mOQUE DESEJA FAZER \033[1;37m?\033[1;31m?\033[1;37m "
+read option
+if [ "$option" = "1" ]; then 
+clear
+echo -e "ISSO IRA REMOVER TODAS AS REGRAS DE BLOQUEIO!"
+echo ""
+echo -e "DESEJAR REALMENTE CONTINUAR ?"
+echo ""
+echo -e "SIM/NAO" 
+echo ""
+echo -e "\033[1;37mDIGITE SUA RESPOSTA: "
+echo ""
+read option2
+if [ "$option2" = "SIM" ]; then 
+clear
+iptables -F
+echo -e "FEITO !"
+rm -f sites.cake
+sleep 1s
+unblockall
+elif [ "$option2" = "NAO" ]; then 
+unblockall
+else
+clear
+echo -e " APENAS SIM OU NAO"
+sleep 1s
+unblockall
+fi
+elif [ "$option" = "2" ]; then 
+menu
+else
+clear
+echo -e"APENAS 1 OU 2 ! " 
+sleep 1s
+unblockall
+fi
+}
+menu

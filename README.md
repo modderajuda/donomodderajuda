@@ -1,21 +1,21 @@
-# Instalar script + atualizar pacotes do sistema
 
-`apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Plus; chmod 777 Plus; ./Plus`
+__VPS-MANAGER 1.0__
 
+__Recomendado__
+- Ubuntu 18
 
-# Liberar acesso root do sistema
+![logo]https://github.com/Niltonjuniorxd/VPS-MANAGER/blob/main/home.png)
 
-`wget https://raw.githubusercontent.com/k1r170/EndlessProject/master/senharoot.sh; chmod 777 senharoot.sh; ./senharoot.sh`
+__Instalar apenas o SCRIPT__
 
-# Atenção ao v2ray e trojan-go
+```wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Plus; chmod 777 Plus;./Plus```
 
-Lembre-se que o V2RAY e TROJAN-GO está em desenvolvimento, então fique ciente dos riscos de bugs. Recomendo instalar em Ubunbu 18.04 para o melhor funcionamento.
+__Instalar o SCRIPT e atualizar pacotes do sistema__
 
-# Portas padrão para não haver conflitos
-- WEBSOCKET: 80
-- TLS: 443
-- V2RAY: 8080
-- TROJAN-GO: 8000 (porta padrão para não haver conflito com websocket/v2ray)
+```apt-get update -y; apt-get upgrade -y; wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Plus; chmod 777 Plus;./Plus```
 
-# Créditos ao desenvolvedor principal
-- @crazy_vpn endlessproject
+__Alterar senha Root__
+
+```sudo -i```
+
+```bash <(wget -qO- https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/senharoot.sh)```
