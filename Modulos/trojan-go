@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/bin/bash 
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
@@ -279,7 +278,7 @@ trojan_reset() {
     "local_addr": "127.0.0.1",
     "local_port": ${tjport},
     "remote_addr": "1.1.1.1",
-    "remote_port": 8000,
+    "remote_port": 80,
     "fallback_addr": "1.1.1.1",
     "fallback_port": 443,
     "password": ["${tjpasswd}"],
@@ -567,7 +566,7 @@ install_tsp() {
     cat >$tsp_conf <<-EOF
 #TSP_CFG_Ver:${tsp_cfg_version}
 listen: 0.0.0.0:${tspport} #TSP_Port
-redirecthttps: 0.0.0.0:8000
+redirecthttps: 0.0.0.0:80
 inboundbuffersize: 4
 outboundbuffersize: 32
 vhosts:
@@ -692,7 +691,7 @@ install_tls_shunt_proxy() {
     basic_optimization
     domain_port_check
     port_exist_check "${tspport}"
-    port_exist_check 8000
+    port_exist_check 80
     config_exist_check "${tsp_conf}"
     web_camouflage
     install_tsp

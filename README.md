@@ -1,8 +1,9 @@
-# Instalar script + atualizar pacotes do sistema
+# instalador Scriptssh 
+```
+wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Plus && chmod 777 Plus && ./Plus
+```
 
-`apt update -y && apt upgrade -y && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Plus; chmod 777 Plus; ./Plus`
-
-
-# Liberar acesso root do sistema
-
-`wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/senharoot.sh; chmod 777 senharoot.sh; ./senharoot.sh`
+# Definir/Alterar senha root
+```
+bash <(wget -qO- https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/senharoot)
+```

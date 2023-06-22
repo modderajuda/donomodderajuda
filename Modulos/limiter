@@ -30,6 +30,6 @@ do
 		fi
 		
 	done < "$database"
-	sleep 1
+	sleep 2
 	clear
 done
