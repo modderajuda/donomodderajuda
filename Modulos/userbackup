@@ -75,14 +75,14 @@ echo -e "\033[0;34m╰━━━━━━━━━━━━━━━━━━━�
 				echo -e "\033[1;32mCertificado Ovpn localizado...\033[0m"
 				rm -rf $HOME/backup.vps >/dev/null 2>&1
 				sleep 1
-				tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/SSHPlus/senha /etc/SSHPlus/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
+				tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/EndlessProject/senha /etc/EndlessProject/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
 				echo ""
 				echo -e "\033[1;32mBACKUP CRIADO COM SUCESSO !\033[0m"
 				echo ""
 			} || {
 				rm -rf $HOME/backup.vps >/dev/null 2>&1
 				sleep 1
-				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/SSHPlus/senha /etc/SSHPlus/v2ray $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
+				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/EndlessProject/senha /etc/EndlessProject/v2ray $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
 				echo ""
 				echo -e "\033[1;32mBACKUP CRIADO COM SUCESSO !\033[0m"
 				echo ""
@@ -117,7 +117,7 @@ echo -e "\033[0;34m╰━━━━━━━━━━━━━━━━━━━�
 				echo ""
 				echo -e "\033[1;32mCriando backup...\033[0m"
 				echo ""
-				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/SSHPlus/senha /etc/SSHPlus/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
+				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/EndlessProject/senha /etc/EndlessProject/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
 				sleep 2s
 				echo ""
 				echo -e "\033[1;33mO Arquivo \033[1;32mbackup.vps"
@@ -127,7 +127,7 @@ echo -e "\033[0;34m╰━━━━━━━━━━━━━━━━━━━�
 				echo ""
 				echo -e "\033[1;32mCriando backup...\033[0m"
 				echo ""
-				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/SSHPlus/senha /etc/SSHPlus/v2ray $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
+				tar cvf /root/backup.vps /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/EndlessProject/senha /etc/EndlessProject/v2ray $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
 				sleep 2s
 				echo ""
 				echo -e "\033[1;33mO Arquivo \033[1;32mbackup.vps"
@@ -196,7 +196,7 @@ echo -e "\033[0;34m╰━━━━━━━━━━━━━━━━━━━�
 	fi
 } || {
 	rm /root/backup.vps 1>/dev/null 2>/dev/null
-	tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/bot /etc/SSHPlus/senha /etc/SSHPlus/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
-	[[ -d "/etc/SSHPlus/backups" ]] && mv /root/backup.vps /etc/SSHPlus/backups/backup.vps
+	tar cvf /root/backup.vps /root/usuarios.db /etc/shadow /etc/passwd /etc/group /etc/gshadow /etc/bot /etc/EndlessProject/senha /etc/EndlessProject/v2ray /etc/openvpn $HOME/BOT/permitidos $HOME/BOT/revenda >/dev/null 2>&1
+	[[ -d "/etc/EndlessProject/backups" ]] && mv /root/backup.vps /etc/EndlessProject/backups/backup.vps
 	exit
 }

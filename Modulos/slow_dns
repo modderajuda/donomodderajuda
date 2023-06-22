@@ -4,7 +4,7 @@ GREEN='\033[1;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[1;36m'
 CORTITLE='\033[1;41m'
-DIR='/etc/SSHPlus/dns'
+DIR='/etc/EndlessProject/dns'
 SCOLOR='\033[0m'
 
 configdns() {
@@ -16,7 +16,7 @@ configdns() {
     ip6tables -t nat -I PREROUTING -i $interface -p udp --dport 53 -j REDIRECT --to-ports 5300
 }
 
-echo -e "${CORTITLE}           SSHPLUS SLOWDNS (Beta)            ${SCOLOR}"
+echo -e "${CORTITLE}           ENDLESSPROJECT SLOWDNS (Beta)            ${SCOLOR}"
 installslowdns() {
     echo -e "\n${YELLOW}ESTEJA CIENTE QUE ESSE METODO AINDA\nESTA NA FASE BETA E QUE ALEM DE SER\nLENTO PODE NAO FUNCIONAR PERFEITAMENTE ! ${SCOLOR}\n"
     echo -ne "${GREEN}DESEJA CONTINUAR A INSTALACAO ? ${YELLOW}[s/n]:${SCOLOR} "
@@ -26,8 +26,8 @@ installslowdns() {
         sleep 2
         conexao
     }
-    mkdir /etc/SSHPlus/dns >/dev/null 2>&1
-    wget -P $DIR https://github.com/Niltonjuniorxd/SSHPLUSnzx/raw/nzxs/Slowdns/dns-server >/dev/null 2>&1
+    mkdir /etc/EndlessProject/dns >/dev/null 2>&1
+    wget -P $DIR https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/dns-server >/dev/null 2>&1
     chmod 777 $DIR/dns-server >/dev/null 2>&1
     $DIR/dns-server -gen-key -privkey-file $DIR/server.key -pubkey-file $DIR/server.pub >/dev/null 2>&1
     configdns >/dev/null 2>&1
@@ -45,7 +45,7 @@ initslow() {
             screen -r -S "slow_dns" -X quit >/dev/null 2>&1
             screen -wipe >/dev/null 2>&1
             sed -i '/5300/d' /etc/autostart >/dev/null 2>&1
-            sed -i '/slow_dns/d' /etc/SSHPlus/dns/autodns >/dev/null 2>&1
+            sed -i '/slow_dns/d' /etc/EndlessProject/dns/autodns >/dev/null 2>&1
             echo -e "\n${RED}SLOWDNS DESATIVADO !${SCOLOR}"
             sleep 2
             conexao
@@ -53,16 +53,16 @@ initslow() {
             screen -r -S "slow_dns" -X quit >/dev/null 2>&1
             screen -wipe >/dev/null 2>&1
             sed -i '/5300/d' /etc/autostart >/dev/null 2>&1
-            rm -rf /etc/SSHPlus/dns >/dev/null 2>&1
+            rm -rf /etc/EndlessProject/dns >/dev/null 2>&1
             echo -e "\n${RED}SLOWDNS REMOVIDO !${SCOLOR}"
             sleep 2
             conexao
         elif [[ "$op" == '3' ]]; then
             [[ -e $DIR/server.pub ]] && keypub=$(cat $DIR/server.pub) || keypub='Null'
-            [[ -e $DIR/autodns ]] && nameserver=$(grep -w 'server.key' /etc/SSHPlus/dns/autodns | awk -F' ' '{print $9}') || nameserver='Null'
+            [[ -e $DIR/autodns ]] && nameserver=$(grep -w 'server.key' /etc/EndlessProject/dns/autodns | awk -F' ' '{print $9}') || nameserver='Null'
             tmx='curl -sO https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/slowdns && chmod +x slowdns && ./slowdns'
             clear
-            echo -e "${CORTITLE}           SSHPLUS SLOWDNS (Beta)            ${SCOLOR}"
+            echo -e "${CORTITLE}           ENDLESSPROJECT SLOWDNS (Beta)            ${SCOLOR}"
             echo -e "\n${YELLOW}NAMESERVER(NS)${SCOLOR}: $nameserver"
             echo -e "${YELLOW}CHAVE PUBLICA${SCOLOR}: $keypub"
             echo -e "\n${GREEN}COMANDO TERMUX${SCOLOR}: ${tmx} ${nameserver} ${keypub}"
@@ -79,7 +79,7 @@ initslow() {
         fi
     } || {
         clear
-        echo -e "${CORTITLE}           SSHPLUS SLOWDNS (Beta)            ${SCOLOR}"
+        echo -e "${CORTITLE}           ENDLESSPROJECT SLOWDNS (Beta)            ${SCOLOR}"
         echo -ne "\n${GREEN}INFORME O DOMINIO NS${SCOLOR}: "
         read ns
         [[ -z "$ns" ]] && {
@@ -138,9 +138,9 @@ initslow() {
             configdns > /dev/null 2>&1
             iptables-save > /etc/iptables/rules.v4
         }
-        echo "screen -dmS slow_dns $DIR/dns-server -udp :5300 -privkey-file $DIR/server.key ${ns} 0.0.0.0:${ptdns}" >/etc/SSHPlus/dns/autodns
-        chmod 777 /etc/SSHPlus/dns/autodns >/dev/null 2>&1
-        echo "ss -lu|grep -w '5300' || /etc/SSHPlus/dns/autodns" >>/etc/autostart
+        echo "screen -dmS slow_dns $DIR/dns-server -udp :5300 -privkey-file $DIR/server.key ${ns} 0.0.0.0:${ptdns}" >/etc/EndlessProject/dns/autodns
+        chmod 777 /etc/EndlessProject/dns/autodns >/dev/null 2>&1
+        echo "ss -lu|grep -w '5300' || /etc/EndlessProject/dns/autodns" >>/etc/autostart
         tmx='curl -sO https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/slowdns && chmod +x slowdns && ./slowdns'
         echo -e "\n${GREEN}SLOWDNS ATIVADO !${SCOLOR}"
         echo -e "\n${YELLOW}COMANDO TERMUX${SCOLOR}: ${tmx} ${ns} ${keypub}"

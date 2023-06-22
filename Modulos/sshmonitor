@@ -1,5 +1,4 @@
 #!/bin/bash 
-if [[ -e /usr/lib/licence ]]; then
 database="/root/usuarios.db"
 tmp_now=$(printf '%(%H%M%S)T\n')
 fun_drop () {

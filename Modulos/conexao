@@ -15,7 +15,7 @@ SCOLOR='\033[0m'
 		comando[1]="$2"
 		(
 			[[ -e $HOME/fim ]] && rm $HOME/fim
-			[[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
+			[[ ! -d /etc/EndlessProject ]] && rm -rf /bin/menu
 			${comando[0]} >/dev/null 2>&1
 			${comando[1]} >/dev/null 2>&1
 			touch $HOME/fim
@@ -162,7 +162,7 @@ echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━�
 				acl url1 dstdomain -i 127.0.0.1
 				acl url2 dstdomain -i localhost
 				acl url3 dstdomain -i $ipdovps
-				acl url4 dstdomain -i /SSHPLUS?
+				acl url4 dstdomain -i /ENDLESSPROJECT?
 				acl payload url_regex -i "$var_pay"
 				acl all src 0.0.0.0/0
 
@@ -181,7 +181,7 @@ echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━�
 			done
 			cat <<-EOF >>$var_sqd
 				#Nome squid
-				visible_hostname SSHPLUS 
+				visible_hostname ENDLESSPROJECT 
 				via off
 				forwarded_for off
 				pipeline_prefetch off
@@ -1255,9 +1255,9 @@ echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━�
 			# Adquirindo easy-rsa
 			echo ""
 			fun_dep() {
-				wget -O ~/EasyRSA-v3.0.9.tgz "https://github.com/Niltonjuniorxd/SSHPLUSnzx/raw/nzxs/Install/EasyRSA-v3.0.9.tgz"
+				wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/EasyRSA-v3.0.9.tgz"
 				[[ ! -e $HOME/EasyRSA-v3.0.9.tgz ]] && {
-					wget -O ~/EasyRSA-v3.0.9.tgz "https://github.com/Niltonjuniorxd/SSHPLUSnzx/raw/nzxs/Install/EasyRSA-v3.0.9.tgz"
+					wget -O ~/EasyRSA-v3.0.9.tgz "https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Install/EasyRSA-v3.0.9.tgz"
 				}
 				tar xzf ~/EasyRSA-v3.0.9.tgz -C ~/
 				mv ~/EasyRSA-v3.0.9/ /etc/openvpn/
@@ -1269,7 +1269,7 @@ echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━�
 				./easyrsa --batch build-ca nopass
 				./easyrsa gen-dh
 				./easyrsa build-server-full server nopass
-				./easyrsa build-client-full SSHPLUS nopass
+				./easyrsa build-client-full ENDLESSPROJECT nopass
 				./easyrsa gen-crl
 				cp pki/ca.crt pki/private/ca.key pki/dh.pem pki/issued/server.crt pki/private/server.key /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn
 				chown nobody:$GROUPNAME /etc/openvpn/crl.pem
@@ -1427,7 +1427,7 @@ exit 0' >$RCLOCAL
 				float
 			EOF
 			# gerar client.ovpn
-			newclient "SSHPLUS"
+			newclient "ENDLESSPROJECT"
 			[[ "$(netstat -nplt | grep -wc 'openvpn')" != '0' ]] && echo -e "\n\033[1;32mOPENVPN INSTALADO COM SUCESSO\033[0m" || echo -e "\n\033[1;31mERRO ! A INSTALACAO CORROMPEU\033[0m"
 		}
 		sed -i '$ i\echo 1 > /proc/sys/net/ipv4/ip_forward' /etc/rc.local
@@ -1502,12 +1502,12 @@ exit 0' >$RCLOCAL
 				verif_ptrs $porta
 				fun_inisocks() {
 					sleep 1
-					screen -dmS proxy python /etc/SSHPlus/proxy.py $porta
+					screen -dmS proxy python /etc/EndlessProject/proxy.py $porta
 					[[ $(grep -wc "proxy.py" /etc/autostart) = '0' ]] && {
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'proxy' -X quit;  screen -dmS proxy python /etc/SSHPlus/proxy.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'proxy' -X quit;  screen -dmS proxy python /etc/EndlessProject/proxy.py $porta; }" >>/etc/autostart
 					} || {
 						sed -i '/proxy.py/d' /etc/autostart
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'proxy' -X quit;  screen -dmS proxy python /etc/SSHPlus/proxy.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'proxy' -X quit;  screen -dmS proxy python /etc/EndlessProject/proxy.py $porta; }" >>/etc/autostart
 					}
 				}
 				echo ""
@@ -1553,12 +1553,12 @@ exit 0' >$RCLOCAL
 				verif_ptrs $porta
 				fun_iniwssocks() {
 					sleep 1
-					screen -dmS ws python /etc/SSHPlus/wsproxy.py $porta
+					screen -dmS ws python /etc/EndlessProject/wsproxy.py $porta
 					[[ $(grep -wc "wsproxy.py" /etc/autostart) = '0' ]] && {
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS ws python /etc/SSHPlus/wsproxy.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS ws python /etc/EndlessProject/wsproxy.py $porta; }" >>/etc/autostart
 					} || {
 						sed -i '/wsproxy.py/d' /etc/autostart
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS ws python /etc/SSHPlus/wsproxy.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'ws' -X quit;  screen -dmS ws python /etc/EndlessProject/wsproxy.py $porta; }" >>/etc/autostart
 					}
 				}
 				echo ""
@@ -1605,17 +1605,17 @@ exit 0' >$RCLOCAL
 				verif_ptrs $porta
 				fun_inisocksop() {
 					[[ "$(netstat -tlpn | grep 'openvpn' | wc -l)" != '0' ]] && {
-						listoldop=$(grep -w 'DEFAULT_HOST =' /etc/SSHPlus/open.py | cut -d"'" -f2 | cut -d: -f2)
+						listoldop=$(grep -w 'DEFAULT_HOST =' /etc/EndlessProject/open.py | cut -d"'" -f2 | cut -d: -f2)
 						listopen=$(netstat -tlpn | grep -w openvpn | grep -v 127.0.0.1 | awk {'print $4'} | cut -d: -f2)
-						sed -i "s/$listoldop/$listopen/" /etc/SSHPlus/open.py
+						sed -i "s/$listoldop/$listopen/" /etc/EndlessProject/open.py
 					}
 					sleep 1
-					screen -dmS openpy python /etc/SSHPlus/open.py $porta
+					screen -dmS openpy python /etc/EndlessProject/open.py $porta
 					[[ $(grep -wc "open.py" /etc/autostart) = '0' ]] && {
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'openpy' -X quit;  screen -dmS openpy python /etc/SSHPlus/open.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'openpy' -X quit;  screen -dmS openpy python /etc/EndlessProject/open.py $porta; }" >>/etc/autostart
 					} || {
 						sed -i '/open.py/d' /etc/autostart
-						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'openpy' -X quit;  screen -dmS openpy python /etc/SSHPlus/open.py $porta; }" >>/etc/autostart
+						echo -e "netstat -tlpn | grep -w $porta > /dev/null || {  screen -r -S 'openpy' -X quit;  screen -dmS openpy python /etc/EndlessProject/open.py $porta; }" >>/etc/autostart
 					}
 				}
 				echo ""
@@ -1648,7 +1648,7 @@ exit 0' >$RCLOCAL
 				echo ""
 				abrirptsks() {
 					sleep 1
-					screen -dmS proxy python /etc/SSHPlus/proxy.py $porta
+					screen -dmS proxy python /etc/EndlessProject/proxy.py $porta
 					sleep 1
 				}
 				fun_bar 'abrirptsks'
@@ -1663,7 +1663,7 @@ exit 0' >$RCLOCAL
 			fi
 		elif [[ "$resposta" = '5' ]]; then
 			if ps x | grep -w proxy.py | grep -v grep 1>/dev/null 2>/dev/null; then
-		msgsocks=$(cat /etc/SSHPlus/proxy.py | grep -E "MSG =" | awk -F = '{print $2}' | cut -d "'" -f 2)
+		msgsocks=$(cat /etc/EndlessProject/proxy.py | grep -E "MSG =" | awk -F = '{print $2}' | cut -d "'" -f 2)
 				echo -e "\E[44;1;37m             PROXY SOCKS              \E[0m"
 				echo ""
 				echo -e "\033[1;33mSTATUS: \033[1;32m$msgsocks"
@@ -1718,11 +1718,11 @@ exit 0' >$RCLOCAL
 					cor_sts='null'
 				fi
 				fun_msgsocks() {
-					msgsocks2=$(cat /etc/SSHPlus/proxy.py | grep "MSG =" | awk -F = '{print $2}')
-					sed -i "s/$msgsocks2/ '$msgg'/g" /etc/SSHPlus/proxy.py
+					msgsocks2=$(cat /etc/EndlessProject/proxy.py | grep "MSG =" | awk -F = '{print $2}')
+					sed -i "s/$msgsocks2/ '$msgg'/g" /etc/EndlessProject/proxy.py
 					sleep 1
-					cor_old=$(grep 'color=' /etc/SSHPlus/proxy.py | cut -d '"' -f2)
-					sed -i "s/\b$cor_old\b/$cor_sts/g" /etc/SSHPlus/proxy.py
+					cor_old=$(grep 'color=' /etc/EndlessProject/proxy.py | cut -d '"' -f2)
+					sed -i "s/\b$cor_old\b/$cor_sts/g" /etc/EndlessProject/proxy.py
 				}
 				echo ""
 				echo -e "\033[1;32mALTERANDO STATUS!"
@@ -1737,7 +1737,7 @@ exit 0' >$RCLOCAL
 						screen -wipe >/dev/null
 						_Ptsks="$(cat /tmp/Pt_sks)"
 						sleep 1
-						screen -dmS proxy python /etc/SSHPlus/proxy.py $_Ptsks
+						screen -dmS proxy python /etc/EndlessProject/proxy.py $_Ptsks
 						rm /tmp/Pt_sks
 					fi
 				}
@@ -1756,7 +1756,7 @@ exit 0' >$RCLOCAL
 			fi
 		elif [[ "$resposta" = '6' ]]; then
 			if ps x | grep -w wsproxy.py | grep -v grep 1>/dev/null 2>/dev/null; then
-		msgsocks=$(cat /etc/SSHPlus/wsproxy.py | grep -E "MSG =" | awk -F = '{print $2}' | cut -d "'" -f 2)
+		msgsocks=$(cat /etc/EndlessProject/wsproxy.py | grep -E "MSG =" | awk -F = '{print $2}' | cut -d "'" -f 2)
 				echo -e "\E[44;1;37m             WEBSOCKET              \E[0m"
 				echo ""
 				echo -e "\033[1;33mSTATUS: \033[1;32m$msgsocks"
@@ -1811,11 +1811,11 @@ exit 0' >$RCLOCAL
 					cor_sts='null'
 				fi
 				fun_msgsocks() {
-					msgsocks2=$(cat /etc/SSHPlus/wsproxy.py | grep "MSG =" | awk -F = '{print $2}')
-					sed -i "s/$msgsocks2/ '$msgg'/g" /etc/SSHPlus/wsproxy.py
+					msgsocks2=$(cat /etc/EndlessProject/wsproxy.py | grep "MSG =" | awk -F = '{print $2}')
+					sed -i "s/$msgsocks2/ '$msgg'/g" /etc/EndlessProject/wsproxy.py
 					sleep 1
-					cor_old=$(grep 'color=' /etc/SSHPlus/wsproxy.py | cut -d '"' -f2)
-					sed -i "s/\b$cor_old\b/$cor_sts/g" /etc/SSHPlus/wsproxy.py
+					cor_old=$(grep 'color=' /etc/EndlessProject/wsproxy.py | cut -d '"' -f2)
+					sed -i "s/\b$cor_old\b/$cor_sts/g" /etc/EndlessProject/wsproxy.py
 				}
 				echo ""
 				echo -e "\033[1;32mALTERANDO STATUS!"
@@ -1830,7 +1830,7 @@ exit 0' >$RCLOCAL
 						screen -wipe >/dev/null
 						_Ptwssks="$(cat /tmp/Pt_wssks)"
 						sleep 1
-						screen -dmS ws python /etc/SSHPlus/wsproxy.py $_Ptwssks
+						screen -dmS ws python /etc/EndlessProject/wsproxy.py $_Ptwssks
 						rm /tmp/Pt_wssks
 					fi
 				}

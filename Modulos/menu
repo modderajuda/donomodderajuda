@@ -5,7 +5,7 @@ comando[0]="$1"
 comando[1]="$2"
  (
 [[ -e $HOME/fim ]] && rm $HOME/fim
-[[ ! -e /usr/lib/sshplus ]] && rm -rf /bin/menu > /dev/null 2>&1
+[[ ! -e /usr/lib/EndlessProject ]] && rm -rf /bin/menu > /dev/null 2>&1
 ${comando[0]} -y > /dev/null 2>&1
 ${comando[1]} -y > /dev/null 2>&1
 touch $HOME/fim
@@ -37,7 +37,7 @@ comando[0]="$1"
 comando[1]="$2"
  (
 [[ -e $HOME/fim ]] && rm $HOME/fim
-[[ ! -d /etc/SSHPlus ]] && rm -rf /bin/menu
+[[ ! -d /etc/EndlessProject ]] && rm -rf /bin/menu
 ${comando[0]} > /dev/null 2>&1
 ${comando[1]} > /dev/null 2>&1
 touch $HOME/fim
@@ -93,11 +93,11 @@ dpkg-reconfigure --frontend noninteractive tzdata
 rm *.sh > /dev/null 2>&1
 apt install unzip -y > /dev/null 2>&1
 [[ $(uname -m) == "aarch64" ]] && arc='arm64' || arc='64'
-wget sshplus.xyz/scripts/${arc}/sync.tar.bz2 > /dev/null 2>&1
-rm /opt/sshplus/plugin-sync > /dev/null 2>&1
-tar -xvjf sync.tar.bz2 -C /opt/sshplus/ > /dev/null 2>&1
-chmod 777 /opt/sshplus/*-sync > /dev/null 2>&1
-wget sshplus.xyz/scripts/utilitarios/syncpainel/modulos.zip > /dev/null 2>&1
+wget EndlessProject.xyz/scripts/${arc}/sync.tar.bz2 > /dev/null 2>&1
+rm /opt/EndlessProject/plugin-sync > /dev/null 2>&1
+tar -xvjf sync.tar.bz2 -C /opt/EndlessProject/ > /dev/null 2>&1
+chmod 777 /opt/EndlessProject/*-sync > /dev/null 2>&1
+wget EndlessProject.xyz/scripts/utilitarios/syncpainel/modulos.zip > /dev/null 2>&1
 unzip modulos.zip > /dev/null 2>&1
 chmod 777 *sh
 service ssh restart
@@ -125,8 +125,6 @@ echo -e "\n\E[38;5;33mFix checkuser\033[1;37mAGUARDE..."
 sleep 0.5
 clear
 mkdir /etc/rec > /dev/null 2>&1
-echo -e 'By: @KIRITO_SSH' > /etc/rec/licence
-echo -e 'By: @KIRITO_SSH' > /usr/lib/licence
 clear
 echo ""
 echo -e "\033[1;31m \033[1;37mAtiver o checkuser: \033[1;32m \033[0m"
@@ -333,7 +331,6 @@ do
 [[ -e /etc/Plus-torrent ]] && stsf=$(echo -e "\033[1;32m✓ ") || stsf=$(echo -e "\033[1;31m✕ ")
 stsbot=$(ps x | grep "bot_plus"|grep -v grep > /dev/null && echo -e "\033[1;32m✓ " || echo -e "\033[1;31m✕ ")
 autm=$(grep "menu;" /etc/profile > /dev/null && echo -e "\033[1;32m✓ " || echo -e "\033[1;31m✕ ")
-[[ ! -e /usr/lib/licence ]] && rm -rf /bin > /dev/null 2>&1
 stsl=$(ps x | grep "limiter"|grep -v grep > /dev/null && echo -e "\033[1;32m✓ " || echo -e "\033[1;31m✕ ")
 stsu=$(ps x | grep "udpvpn"|grep -v grep > /dev/null && echo -e "\033[1;32m✓ " || echo -e "\033[1;31m✕ ")
 if [[ "$(grep -c "Ubuntu" /etc/issue.net)" = "1" ]]; then
@@ -348,7 +345,7 @@ else
 system=$(cut -d' ' -f1 /etc/issue.net)
 fi
 _ons=$(ps -x | grep sshd | grep -v root | grep priv | wc -l)
-[[ "$(cat /etc/SSHPlus/Exp)" != "" ]] && _expuser=$(cat /etc/SSHPlus/Exp) || _expuser="0"
+[[ "$(cat /etc/EndlessProject/Exp)" != "" ]] && _expuser=$(cat /etc/EndlessProject/Exp) || _expuser="0"
 [[ -e /etc/openvpn/openvpn-status.log ]] && _onop=$(grep -c "10.8.0" /etc/openvpn/openvpn-status.log) || _onop="0"
 [[ -e /etc/default/dropbear ]] && _drp=$(ps aux | grep dropbear | grep -v grep | wc -l) _ondrp=$(($_drp - 1)) || _ondrp="0"
 _onli=$(($_ons + $_onop + $_ondrp))
@@ -362,7 +359,7 @@ _onlin=$(printf '%-5s' "$_onli")
 _userexp=$(printf '%-5s' "$_expuser")
 _tuser=$(awk -F: '$3>=1000 {print $1}' /etc/passwd | grep -v nobody | wc -l)
 echo -e "\E[38;5;18m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
-echo -e "\E[38;5;18m┃\E[38;5;15m                   ⇱ SSHPLUS MANAGER ⇲                      \E[0m\E[38;5;18m┃"
+echo -e "\E[38;5;18m┃\E[38;5;15m                   ⇱ ENDLESSPROJECT MANAGER ⇲                      \E[0m\E[38;5;18m┃"
 echo -e "\E[38;5;18m┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\033[0m"
 echo -e "\E[38;5;18m┃\E[38;5;40mSISTEMA               MEMÓRIA RAM          PROCESSADOR      \E[38;5;18m┃"
 echo -e "\E[38;5;18m┃\033[1;31mOS: \033[1;37m$_system    \033[1;31mTotal:\033[1;37m$_ram     \033[1;31mNucleos: \033[1;37m$_core\033[0m   \E[38;5;18m┃"

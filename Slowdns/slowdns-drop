@@ -57,7 +57,7 @@ echo -e "BAIXANDO BINARIO DNSTT..."
 download_dnstt () {
 rm -rf /etc/slowdns
 mkdir /etc/slowdns
-cd /etc/slowdns/ && wget https://github.com/Niltonjuniorxd/SSHPLUSnzx/raw/nzxs/Slowdns/dns-server
+cd /etc/slowdns/ && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/dns-server
 chmod +x dns-server
 }
 fun_bar 'download_dnstt'

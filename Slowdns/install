@@ -43,7 +43,7 @@ fun_att () {
 apt install ncurses-utils -y
 mkdir /etc/slowdns
 cd /etc/slowdns
-wget https://github.com/Niltonjuniorxd/SSHPLUSnzx/raw/nzxs/Slowdns/dns-server ; chmod +x dns-server
+wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/dns-server ; chmod +x dns-server
 wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/remove-slow; chmod +x remove-slow
 wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/slowdns-info; chmod +x slowdns-info
 wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/Slowdns/slowdns-drop; chmod +x slowdns-drop

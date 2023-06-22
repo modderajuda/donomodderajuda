@@ -94,7 +94,7 @@ tput reset; exit 1
 }
 tput reset
 echo -e "\033[0;34m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\033[0m"
-echo -e "\033[0;34m┃\E[41;1;37m             ⇱ SSHPLUS MANAGER nzx ⇲             \E[0m\033[0;34m┃"
+echo -e "\033[0;34m┃\E[41;1;37m             ⇱ ENDLESSPROJECT MANAGER nzx ⇲             \E[0m\033[0;34m┃"
 echo -e "\033[0;34m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
 echo ""          
 echo -e "             \033[1;31mATENCAO! \033[1;37mESSE SCRIPT IRA !\033[0m"
