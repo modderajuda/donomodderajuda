@@ -5,4 +5,4 @@
 
 # Liberar acesso root do sistema
 
-`wget https://raw.githubusercontent.com/k1r170/EndlessProject/master/senharoot.sh; chmod 777 senharoot.sh; ./senharoot.sh`
+`wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/senharoot.sh; chmod 777 senharoot.sh; ./senharoot.sh`
