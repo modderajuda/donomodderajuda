@@ -131,9 +131,6 @@ apt install git -y &>/dev/null
 apt install figlet boxes -y &>/dev/null
 [[ ! -d /usr/share/.plus ]] && mkdir /usr/share/.plus
 echo "crz: $(date)" > /usr/share/.plus/.plus
-mkdir /opt/sshplus
-echo > /opt/sshplus/sshplus
-cd /etc/SSHPlus/ && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/I/WebSocket && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/I/pub.key && wget https://raw.githubusercontent.com/Niltonjuniornzx/EndlessProject/main/I/priv.pem && chmod 777 WebSocket && cd $HOME
 }
 fun_bar 'fun_attlist'
 clear
