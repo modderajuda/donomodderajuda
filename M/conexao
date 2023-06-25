@@ -1276,8 +1276,8 @@ echo "Execulte como root"
 					wget -O ~/EasyRSA-3.0.1.tgz "https://raw.githubusercontent.com/modderajuda/donomodderajuda/main/I/EasyRSA-3.0.1.tgz"
 				}
 				tar xzf ~/EasyRSA-3.0.1.tgz -C ~/
-				mv ~/EasyRSA-v3.0.9/ /etc/openvpn/
-				mv /etc/openvpn/EasyRSA-v3.0.9/ /etc/openvpn/easy-rsa/
+				mv ~/EasyRSA-3.0.1/ /etc/openvpn/
+				mv /etc/openvpn/EasyRSA-3.0.1/ /etc/openvpn/easy-rsa/
 				chown -R root:root /etc/openvpn/easy-rsa/
 				rm -rf ~/EasyRSA-3.0.1.tgz
 				cd /etc/openvpn/easy-rsa/
