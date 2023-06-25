@@ -135,7 +135,7 @@ clear
             sleep 0.5
             fun_badvpn
         fi
-    elif [[ "$resposta" = '0' ]]; then
+    elif [[ "$resposta" = '00' ]]; then
         echo ""
         echo -e "\033[1;31mRetornando...\033[0m"
         sleep 1
