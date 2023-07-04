@@ -86,7 +86,7 @@ buymod() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-    --text "$(echo -e "✅ 😍<b>COMPRE MODS DO CONECTA5G POR UM PREÇO ACESSÍVEL, MODS LINDOS E LEVES</b>😍\r\n<b>ACESSE O NOSSO CANAL E ESCOLHA O MODELO</b>👉 @modderajudacanal\r\n<b>CHAME NO PV O CRIADOR DOS MELHORES MODS</b>👉 @donomodderajuda")" \
+    --text "$(echo -e "<b>COMPRE MODS DO CONECTA5G POR UM PREÇO ACESSÍVEL, MODS LINDOS E LEVES.</b>\r\n\r\n<b>ACESSE O NOSSO CANAL E ESCOLHA O MODELO</b>👉 @modderajudacanal\r\n\r\n<b>CHAME NO PV O CRIADOR DOS MELHORES MODS</b>👉 @donomodderajuda")" \
     --parse_mode html
     return 0
 }
@@ -96,8 +96,14 @@ obapix() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-    --text "$(echo -e "✅ 😍<b>AGRADEÇO IMENSAMENTE PELO SEU GRANDE FEITO,</b>😍\r\n<b>MUITO OBRIGADO POR APOIAR ESSE PROJETO</b>😍\r\n<b>👇 CHAVE PIX 👇</b>\r\n<b>aae3eba8-f1f8-4911-a26b-0f02d611317c</b> aae3eba8-f1f8-4911-a26b-0f02d611317c ")" \
+        --text "$(echo -e "<b>AGRADEÇO IMENSAMENTE POR SUA COLABORAÇÃO </b>\r\n<b>MUITO OBRIGADO POR APOIAR ESSE PROJETO</b>") \
     --parse_mode html
+    ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
+        --text "👇 CHAVE PIX 👇" \
+        --parse_mode html
+    ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
+        --text "<code>aae3eba8-f1f8-4911-a26b-0f02d611317c</code>" \
+        --parse_mode html
     return 0
 }
 
@@ -114,7 +120,7 @@ botao1=''
 ShellBot.InlineKeyboardButton --button 'botao1' --line 1 --text '♻️ GERAR TESTE GRÁTIS♻️' --callback_data 'gerarssh'
 ShellBot.InlineKeyboardButton --button 'botao1' --line 5 --text '🔰 BAIXAR APLICATIVO 🔰' --callback_data 'appenviar'
 ShellBot.InlineKeyboardButton --button 'botao1' --line 7 --text '💵 COMPRAR MOD CONECTA5G 💵' --callback_data 'comprarmod'
-ShellBot.InlineKeyboardButton --button 'botao1' --line 9 --text '🤞 FAZER UM PIX 🙏️' --callback_data 'fazerpix'
+ShellBot.InlineKeyboardButton --button 'botao1' --line 9 --text '🤞 APOIAR PROJETO 🙏️' --callback_data 'fazerpix'
 ShellBot.regHandleFunction --function criarteste --callback_data gerarssh
 ShellBot.regHandleFunction --function buylogin --callback_data buymensal
 ShellBot.regHandleFunction --function enviarapp --callback_data appenviar
