@@ -16,13 +16,13 @@ menu() {
     local msg
         msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
         msg+="<b>🤖 SEJA BEM VINDO(A)! 🤖</b>\n"
-        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
-        msg+="<b>DICA: PARA GERAR LOGIN DE TESTE CLIQUE NO BOTÃO (GERAR TESTE GRATIS)</b>\nVOCÊ PODERÁ GERAR UM LOGIN A CADA 24HRS"
+        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
+        msg+="<b>DICA: PARA GERAR LOGIN DE TESTE CLIQUE NO BOTÃO (GERAR TESTE GRATIS)</b>\n\nVOCÊ PODERÁ GERAR UM LOGIN A CADA 24HRS"
         msg+="\n\n=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
-        msg+="<b>É PROIBIDO O USO DE TORRENT, AO SER FLAGRADO USANDO TORRENT, O SEU LOGIN SERÁ CANCELADO!</b>"
-        msg+="\n=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
-        msg+="<b>AJUDE-NOS A CONTINUAR COM ESTE PROJETO (FAZ O PIX) ❤️</b>"
-        msg+="\n=×=×=×=×=×=×=×=×=×=×=×=×=×="
+        msg+="<b>É PROIBIDO O USO DE TORRENT, AO SER FLAGRADO USANDO TORRENT, O SEU LOGIN SERÁ CANCELADO!</b>\n\n"
+        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
+        msg+="<b>AJUDE-NOS A CONTINUAR COM ESTE PROJETO (FAZ O PIX) ❤️</b>\n\n"
+        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×="
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
         --text "$(echo -e $msg)" \
         --reply_markup "$keyboard1" \
@@ -96,8 +96,14 @@ obapix() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-        --text "$(echo -e "<b>MUITO OBRIGADO POR APOIAR O NOSSO PROJETO.</b>\r\n\r\n<b>DOE QUALQUER QUANTIA PARA NOS AJUDAR A CONTINUAR COM ESSE E OUTROS PROJETOS.</b>\r\n\r\n<b>👇 CHAVE PIX 👇\r\n\r\n<code>aae3eba8-f1f8-4911-a26b-0f02d611317c</code>")" \
+        --text "$(echo -e "<b>MUITO OBRIGADO POR APOIAR O NOSSO PROJETO.</b>\r\n\r\n<b>DOE QUALQUER QUANTIA PARA NOS AJUDAR A CONTINUAR COM ESSE E OUTROS PROJETOS.</b>")" \
     --parse_mode html
+    ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
+        --text "👇 CHAVE PIX 👇" \
+        --parse_mode html
+    ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
+        --text "<code>aae3eba8-f1f8-4911-a26b-0f02d611317c</code>" \
+        --parse_mode html
     return 0
 }
 
