@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-#--------@donomodderajuda-----------#
+#--------@Modderajuda-----------#
 source ShellBot.sh
 touch lista
 [[ -z $1 ]] && {
@@ -16,13 +16,13 @@ menu() {
     local msg
         msg="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
         msg+="<b>🤖 SEJA BEM VINDO(A)! 🤖</b>\n"
-        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n\n"
-        msg+="<b>DICA: PARA GERAR LOGIN DE TESTE CLIQUE NO BOTÃO (GERAR TESTE GRATIS)</b>\n\n\nVOCÊ PODERÁ GERAR UM LOGIN A CADA 24HRS \n"
-        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
-        msg+="<b>É PROIBIDO O USO DE TORRENT, AO SER FLAGRADO USANDO TORRENT, O SEU LOGIN SERÁ CANCELADO!</b>\n"
-        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
-        msg+="<b>AJUDE-NOS A CONTINUAR COM ESTE PROJETO (FAZ O PIX) ❤️</b>\n"
-        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×="
+        msg+="=×=×=×=×=×=×=×=×=×=×=×=×=×=\n"
+        msg+="<b>DICA: PARA GERAR LOGIN DE TESTE CLIQUE NO BOTÃO (GERAR TESTE GRATIS)</b>\nVOCÊ PODERÁ GERAR UM LOGIN A CADA 24HRS"
+        msg+="\n\n=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
+        msg+="<b>É PROIBIDO O USO DE TORRENT, AO SER FLAGRADO USANDO TORRENT, O SEU LOGIN SERÁ CANCELADO!</b>"
+        msg+="\n=×=×=×=×=×=×=×=×=×=×=×=×=×=\n\n"
+        msg+="<b>AJUDE-NOS A CONTINUAR COM ESTE PROJETO (FAZ O PIX) ❤️</b>"
+        msg+="\n=×=×=×=×=×=×=×=×=×=×=×=×=×="
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
         --text "$(echo -e $msg)" \
         --reply_markup "$keyboard1" \
@@ -32,13 +32,13 @@ menu() {
 
 # - funcao criar ssh
 criarteste() {
-    [[ $(grep -wc ${callback_query_from_id} lista) != '0' ]] && {
+    [[ $(grep -wc ${callback_query_from_id} lista) != '1' ]] && {
       ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
         --text "VC JA CRIOU LOGIN HOJE, VOLTE EM 24HRS !"
       return 0
     }
     usuario=$(echo teste$(( RANDOM% + 9999 + 1111 )))
-    senha=$((RANDOM% + 99999))
+    senha=$((1234))
     limite='2'
     dias='1'
     tuserdate=$(date '+%C%y/%m/%d' -d " +1 days")
@@ -67,7 +67,7 @@ buylogin() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-    --text "$(echo -e "✅ 😍<b>MUITO OBRIGADO POR CONFIAR EM MEU TRABALHO</b>😍\r\n<b>FAÇA O PIX DE 10$ REAIS E ENVIE O COMPROVANTE PARA</b>👉 @donomodderajuda 👈\r\n<b>👇 CHAVE PIX 👇</b>\r\n<b>aae3eba8-f1f8-4911-a26b-0f02d611317c</b> aae3eba8-f1f8-4911-a26b-0f02d611317c ")" \
+    --text "$(echo -e "<b>MUITO OBRIGADO POR CONFIAR EM MEU TRABALHO</b>\r\n<b>FAÇA O PIX DE 10$ REAIS E ENVIE O COMPROVANTE PARA</b>👉 @donomodderajuda 👈\r\n<b>👇 CHAVE PIX 👇</b>\r\n<b>aae3eba8-f1f8-4911-a26b-0f02d611317c</b> aae3eba8-f1f8-4911-a26b-0f02d611317c ")" \
     --parse_mode html
     return 0
 }
@@ -77,7 +77,7 @@ enviarapp() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ ENVIANDO APLICATIVO, AGUARDE..."
     ShellBot.sendDocument --chat_id ${callback_query_message_chat_id} \
-        --document "@/root/donomodderajuda.apk" \
+        --document "@/root/moddervpn.apk" \
     return 0
 }
     
@@ -86,7 +86,7 @@ buymod() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-    --text "$(echo -e "<b>COMPRE MODS DO CONECTA5G POR UM PREÇO ACESSÍVEL, MODS LINDOS E LEVES.</b>\r\n\r\n<b>ACESSE O NOSSO CANAL E ESCOLHA O MODELO</b>👉 @modderajudacanal\r\n\r\n<b>CHAME NO PV O CRIADOR DOS MELHORES MODS</b>👉 @donomodderajuda")" \
+    --text "$(echo -e "<b>COMPRE MODS DO CONECTA5G POR UM PREÇO ACESSÍVEL, MODS LINDOS E LEVES</b>\r\n\r\n<b>ACESSE O NOSSO CANAL E ESCOLHA O MODELO</b>👉 @modderajudacanal\r\n\r\n<b>CHAME NO PV O CRIADOR DOS MELHORES MODS</b>👉 @donomodderajuda")" \
     --parse_mode html
     return 0
 }
@@ -96,7 +96,7 @@ obapix() {
     ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
         --text "♻️ AGUARDE..."
     ShellBot.sendMessage --chat_id ${callback_query_message_chat_id} \
-        --text "$(echo -e "<b>MUITO OBRIGADO POR APOIAR O NOSSO PROJETO.</b>\r\n\r\n<b>DOE QUALQUER QUANTIA PARA NOS AJUDAR A CONTINUAR COM ESSE E OUTROS PROJETOS.</b>\r\n\r\n<b>👇 CHAVE PIX 👇\r\n\r\n<bcode>aae3eba8-f1f8-4911-a26b-0f02d611317c</code>")" \
+        --text "$(echo -e "<b>MUITO OBRIGADO POR APOIAR O NOSSO PROJETO.</b>\r\n\r\n<b>DOE QUALQUER QUANTIA PARA NOS AJUDAR A CONTINUAR COM ESSE E OUTROS PROJETOS.</b>\r\n\r\n<b>👇 CHAVE PIX 👇\r\n\r\n<code>aae3eba8-f1f8-4911-a26b-0f02d611317c</code>")" \
     --parse_mode html
     return 0
 }
@@ -113,8 +113,8 @@ unset botao1
 botao1=''
 ShellBot.InlineKeyboardButton --button 'botao1' --line 1 --text '♻️ GERAR TESTE GRÁTIS♻️' --callback_data 'gerarssh'
 ShellBot.InlineKeyboardButton --button 'botao1' --line 5 --text '🔰 BAIXAR APLICATIVO 🔰' --callback_data 'appenviar'
-ShellBot.InlineKeyboardButton --button 'botao1' --line 7 --text '💵 COMPRAR MOD CONECTA5G 💵' --callback_data 'comprarmod'
-ShellBot.InlineKeyboardButton --button 'botao1' --line 9 --text '🤞 APOIAR PROJETO 🙏️' --callback_data 'fazerpix'
+ShellBot.InlineKeyboardButton --button 'botao1' --line 7 --text '💵 COMPRAR MOD CONECTA4G 💵' --callback_data 'comprarmod'
+ShellBot.InlineKeyboardButton --button 'botao1' --line 9 --text '🤞 FAZER UM PIX 🙏️' --callback_data 'fazerpix'
 ShellBot.regHandleFunction --function criarteste --callback_data gerarssh
 ShellBot.regHandleFunction --function buylogin --callback_data buymensal
 ShellBot.regHandleFunction --function enviarapp --callback_data appenviar
