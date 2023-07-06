@@ -175,7 +175,7 @@ cd $HOME
 echo "clear" >> /root/.bashrc
     echo 'DATE=$(date +"%d-%m-%y")' >>/root/.bashrc
     echo 'TIME=$(date +"%T")' >>/root/.bashrc
-    echo 'figlet "MODDERAJUDA" | lolcat' >>/root/.bashrc
+    echo 'figlet -k MODDER | lolcat' >>/root/.bashrc
     echo 'echo -e "\033[1;32m NOME DO SERVIDOR : \033[38;5;196m$HOSTNAME"' >>/root/.bashrc
     echo 'echo -e "\033[1;32m SERVIDOR LIGADO À : \033[1;31m$(uptime -p)"' >>/root/.bashrc
     echo 'echo -e "\033[1;32m DATA : \033[1;31m$DATE"' >>/root/.bashrc
@@ -184,7 +184,7 @@ echo "clear" >> /root/.bashrc
     echo 'echo -e ""' >>/root/.bashrc
     date=$(date '+%Y-%m-%d <> %H:%M:%S')
     echo -e "\033[1;37m $system                          $date"
-    echo 'figlet -k MODDER | lolcat' >>/root/.bashrc
+    
     echo -e "\033[1;37m                INSTALACAO CONCLUIDA               \033[1;33m "
     echo -e "\033[1;33mPARA INICIAR DIGITE: \033[1;36mmenu\033[1;33m E DÊ ENTER \033[0m"
     
