@@ -4,10 +4,8 @@ import socket, threading, thread, select, signal, sys, time, getopt
 
 PASS = ''
 LISTENING_ADDR = '0.0.0.0'
-try:
-   LISTENING_PORT = int(sys.argv[1])
-except:
-   LISTENING_PORT = 80
+LISTENING_PORT = 1080
+
 BUFLEN = 8196 * 8
 TIMEOUT = 60
 MSG = ''
@@ -248,22 +246,25 @@ def parse_args(argv):
     
 
 def main(host=LISTENING_ADDR, port=LISTENING_PORT):
-    
+
     print "\033[0;34m━"*8,"\033[1;32m PROXY WEBSOCKET","\033[0;34m━"*8,"\n"
     print "\033[1;33mIP:\033[1;32m " + LISTENING_ADDR
     print "\033[1;33mPORTA:\033[1;32m " + str(LISTENING_PORT) + "\n"
-    print "\033[0;34m━"*10,"\033[1;32m NZX ON","\033[0;34m━\033[1;37m"*11,"\n"
+    print "\033[0;34m━"*10,"\033[1;32m TESTE 1","\033[0;34m━\033[1;37m"*11,"\n"
     
-    
-    server = Server(LISTENING_ADDR, LISTENING_PORT)
-    server.start()
+    server1 = Server(LISTENING_ADDR, LISTENING_PORT)
+    server2 = Server(LISTENING_ADDR, LISTENING_PORT2)
+
+    server1.start()
+    server2.start()
 
     while True:
         try:
             time.sleep(2)
         except KeyboardInterrupt:
             print 'Parando...'
-            server.close()
+            server1.close()
+            server2.close()
             break
     
 if __name__ == '__main__':
