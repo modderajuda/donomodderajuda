@@ -118,8 +118,56 @@ function limit2 () {
    sleep 3
    menu
 }
+
 function limit_ssh () {
 [[ $(ps x | grep "limiter"|grep -v grep |wc -l) = '0' ]] && limit1 || limit2
+}
+
+#onlineapp
+function onapp1 () {
+   clear
+   echo -e "\n\033[1;32mINICIANDO O ONLINE APP... \033[0m"
+   echo ""
+   apt install apache2 -y > /dev/null 2>&1
+   sed -i "s/Listen 80/Listen 8888/g" /etc/apache2/ports.conf >/dev/null 2>&1
+   service apache2 restart
+   rm -rf /var/www/html/server >/dev/null 2>&1
+   mkdir /var/www/html/server >/dev/null 2>&1
+   fun_bar 'screen -dmS onlineapp onlineapp' 'sleep 3'
+   [[ $(grep -wc "onlineapp" /etc/autostart) = '0' ]] && {
+       echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   } || {
+       sed -i '/onlineapp/d' /etc/autostart
+	   echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   }
+   IP=$(wget -qO- ipv4.icanhazip.com) >/dev/null 2>&1
+   echo -e "\n\033[1;32m  ONLINE APP ATIVO !\033[0m"
+   echo -e "\033[1;31m \033[1;33mURL de Usuários Online para usar no App\033[0m"
+   echo -e " http://$IP:8888/server/online"
+   sleep 10
+   menu
+}
+function onapp2 () {
+   clear
+   echo -e "\033[1;32mPARANDO O ONLINE APP... \033[0m"
+   echo ""
+   fun_stponlineapp () {
+      sleep 1
+      screen -r -S "onlineapp" -X quit
+      screen -wipe 1>/dev/null 2>/dev/null
+      [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
+          sed -i '/onlineapp/d' /etc/autostart
+      }
+      sleep 1
+   }
+   fun_bar 'fun_stponlineapp' 'sleep 3'
+   rm -rf /var/www/html/server >/dev/null 2>&1
+   echo -e "\n\033[1;31m ONLINE APP PARADO !\033[0m"
+   sleep 3
+   menu
+}
+function onapp_ssh () {
+[[ $(ps x | grep "onlineapp"|grep -v grep |wc -l) = '0' ]] && onapp1 || onapp2
 }
 
 function autoexec () {
@@ -411,10 +459,29 @@ echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m04\E[38;5;196m|\033[1;37m ➜ \033
 echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m05\E[38;5;196m|\033[1;37m ➜ \033[1;37mMUDAR DATA                   \E[38;5;196m|\E[38;5;33m16\E[38;5;196m|\033[1;37m ➜ \033[1;37mINFO VPS           \033[0;34m┃"
 echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m06\E[38;5;196m|\033[1;37m ➜ \033[1;37mALTERAR LIMITE               \E[38;5;196m|\E[38;5;33m17\E[38;5;196m|\033[1;37m ➜ \033[1;37mFERRAMENTAS        \033[0;34m┃"
 echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m07\E[38;5;196m|\033[1;37m ➜ \033[1;37mMUDAR SENHA                  \E[38;5;196m|\E[38;5;33m18\E[38;5;196m|\033[1;37m ➜ \033[1;37mCHECKUSERS         \033[0;34m┃"
-echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m08\E[38;5;196m|\033[1;37m ➜ \033[1;37mREMOVER EXPIRADOS            \E[38;5;196m|\E[38;5;33m19\E[38;5;196m|\033[1;37m ➜ \033[1;37mSPEEDTEST          \033[0;34m┃"
+
+
+echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m08\E[38;5;196m|\033[1;37m ➜ \033[1;37mREMOVER EXPIRADOS            \E[38;5;196m|\E[38;5;33m19\E[38;5;196m|\033[1;37m ➜ \033[1;37mONLINE APP  $stson      \033[0;34m┃"
+
+
+
+
+echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m09\E[38;5;196m|\033[1;37m ➜ \033[1;37mRELATORIO DE USUARIOS        \E[38;5;196m|\E[38;5;33m20\E[38;5;196m|\033[1;37m ➜ \033[1;37mSPEEDTEST          \033[0;34m┃"
+
+
+echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m10\E[38;5;196m|\033[1;37m ➜ \033[1;37mMODOS DE CONEXAO             \E[38;5;196m|\E[38;5;33m21\E[38;5;196m|\033[1;37m ➜ \033[1;37mBANNER             \033[0;34m┃"
+
+
+echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m11\E[38;5;196m|\033[1;37m ➜ \033[1;37mSUSPENDER USUARIO            \E[38;5;196m|\E[38;5;33m22\E[38;5;196m|\033[1;37m ➜ \033[1;37mTRAFEGO            \033[0;34m┃"
+
+
 echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m09\E[38;5;196m|\033[1;37m ➜ \033[1;37mRELATORIO DE USUARIOS        \E[38;5;196m|\E[38;5;33m20\E[38;5;196m|\033[1;37m ➜ \033[1;37mBANNER             \033[0;34m┃"
+
+
 echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m10\E[38;5;196m|\033[1;37m ➜ \033[1;37mMODOS DE CONEXAO             \E[38;5;196m|\E[38;5;33m21\E[38;5;196m|\033[1;37m ➜ \033[1;37mTRAFEGO            \033[0;34m┃"
-echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m11\E[38;5;196m|\033[1;37m ➜ \033[1;37mSUSPENDER USUARIO            \E[38;5;196m|\E[38;5;33m00\E[38;5;196m|\033[1;37m ➜ \033[1;37mSAIR               \033[0;34m┃"
+
+
+echo -e "\033[0;34m┃\E[38;5;196m|\E[38;5;33m00\E[38;5;196m|\033[1;37m ➜ \033[1;37mSAIR                                                   \033[0;34m┃"
 echo -e "\033[0;34m┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m"
 echo -ne "\033[0;34m┗━┫\033[1;32mO QUE DESEJA FAZER \033[1;31m? : "; read x
 
@@ -507,14 +574,18 @@ case "$x" in
    ;;
    19)
    clear
-   velocity
-   echo -ne "\n\033[1;31mENTER \033[1;37mpara retornar ao \033[1;32mMENU!\033[0m"; read
+   onapp_ssh
    ;;
    20)
    clear
-   banner
+   velocity
+   echo -ne "\n\033[1;31mENTER \033[1;37mpara retornar ao \033[1;32mMENU!\033[0m"; read
    ;;
    21)
+   clear
+   banner
+   ;;
+   22)
    clear
    echo -e "\033[1;32mPARA SAIR CLICK CTRL + C\033[1;36m"
    sleep 1
