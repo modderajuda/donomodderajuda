@@ -11,7 +11,7 @@ clear
     fi
     var_sks1=$(ps x | grep "udpvpn"|grep -v grep > /dev/null && echo -e "\033[1;32m♦ " || echo -e "\033[1;31m○ ")
     echo ""
-    echo -e "\E[38;5;196m|\E[38;5;33m01\E[38;5;196m|\033[1;37m➜ \033[1;33mATIVAR BADVPN(PADRÃO 7300) $var_sks1 \033[0m"
+    echo -e "\E[38;5;196m|\E[38;5;33m01\E[38;5;196m|\033[1;37m➜ \033[1;33mATIVAR/DESATIVAR BADVPN(PADRÃO 7300) $var_sks1 \033[0m"
 	echo -e "\E[38;5;196m|\E[38;5;33m02\E[38;5;196m|\033[1;37m➜ \033[1;33mATIVAR AS PORTAS BADVPN (7100-7900)\033[0m"
     echo -e "\E[38;5;196m|\E[38;5;33m03\E[38;5;196m|\033[1;37m➜ \033[1;33mABRIR PORTA\033[0m"
     echo -e "\E[38;5;196m|\E[38;5;33m00\E[38;5;196m|\033[1;37m➜ \033[1;33mVOLTAR\033[0m"
@@ -70,6 +70,8 @@ clear
             sleep 0.5
             fun_badvpn
         fi
+
+
 		    elif [[ "$resposta" = '2' ]]; then
         if ps x | grep -w udpvpn | grep -v grep 1>/dev/null 2>/dev/null; then
             clear
@@ -104,6 +106,8 @@ clear
             sleep 0.5
             fun_badvpn
 			fi
+
+
     elif [[ "$resposta" = '3' ]]; then
         if ps x | grep -w udpvpn | grep -v grep 1>/dev/null 2>/dev/null; then
             clear
