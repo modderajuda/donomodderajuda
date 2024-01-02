@@ -151,15 +151,20 @@ function onapp2 () {
    clear
    echo -e "\033[1;32mPARANDO O ONLINE APP... \033[0m"
    echo ""
-   fun_stponlineapp () {
-      sleep 1
-      screen -r -S "onlineapp" -X quit
-      screen -wipe 1>/dev/null 2>/dev/null
-      [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
-          sed -i '/onlineapp/d' /etc/autostart
-      }
-      sleep 1
-   }
+   fun_stponlineapp() {
+    sleep 1
+    screen_pid=$(screen -ls | grep "onlineapp" | awk '{print $1}')
+    if [ -n "$screen_pid" ]; then
+        screen -S "onlineapp" -X quit
+        sleep 1
+        screen -wipe >/dev/null
+    fi
+
+    [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
+        sed -i '/onlineapp/d' /etc/autostart
+    }
+}
+   
    fun_bar 'fun_stponlineapp' 'sleep 3'
    rm -rf /var/www/html/server >/dev/null 2>&1
    echo -e "\n\033[1;31m ONLINE APP PARADO !\033[0m"
@@ -169,6 +174,9 @@ function onapp2 () {
 function onapp_ssh () {
 [[ $(ps x | grep "onlineapp"|grep -v grep |wc -l) = '0' ]] && onapp1 || onapp2
 }
+
+
+
 
 function autoexec () {
    if grep "menu;" /etc/profile > /dev/null; then
