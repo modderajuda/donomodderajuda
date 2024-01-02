@@ -124,61 +124,61 @@ function limit_ssh () {
 }
 
 #onlineapp
-function onapp1() {
-    clear
-    echo -e "\n\033[1;32mINICIANDO O ONLINE APP... \033[0m"
-    echo ""
-
-    # Verifica se o Apache está em execução na porta 8888 e o para se necessário
-    if netstat -tulpn | grep -q ':8888.*apache2'; then
-        service apache2 stop >/dev/null 2>&1
-        sleep 1
-    fi
-
-    apt install apache2 -y > /dev/null 2>&1
-    sed -i "s/Listen 80/Listen 8888/g" /etc/apache2/ports.conf >/dev/null 2>&1
-    service apache2 restart
-    rm -rf /var/www/html/server >/dev/null 2>&1
-    mkdir /var/www/html/server >/dev/null 2>&1
-    fun_bar 'screen -dmS onlineapp onlineapp' 'sleep 3'
-
-    # Restaura a configuração original do Apache
-    sed -i "s/Listen 8888/Listen 80/g" /etc/apache2/ports.conf >/dev/null 2>&1
-    service apache2 restart
-
-    [[ $(grep -wc "onlineapp" /etc/autostart) = '0' ]] && {
-        echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
-    } || {
-        sed -i '/onlineapp/d' /etc/autostart
-        echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
-    }
-
-    IP=$(wget -qO- ipv4.icanhazip.com) >/dev/null 2>&1
-    echo -e "\n\033[1;32m  ONLINE APP ATIVO !\033[0m"
-    echo -e "\033[1;31m \033[1;33mURL de Usuários Online para usar no App\033[0m"
-    echo -e " http://$IP:8888/server/online"
-    sleep 10
-    menu
+function onapp1 () {
+   clear
+   echo -e "\n\033[1;32mINICIANDO O ONLINE APP... \033[0m"
+   echo ""
+   apt install apache2 -y > /dev/null 2>&1
+   sed -i "s/Listen 80/Listen 8888/g" /etc/apache2/ports.conf >/dev/null 2>&1
+   service apache2 restart
+   rm -rf /var/www/html/server >/dev/null 2>&1
+   mkdir /var/www/html/server >/dev/null 2>&1
+   fun_bar 'screen -dmS onlineapp onlineapp' 'sleep 3'
+   [[ $(grep -wc "onlineapp" /etc/autostart) = '0' ]] && {
+       echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   } || {
+       sed -i '/onlineapp/d' /etc/autostart
+	   echo -e "ps x | grep 'onlineapp' | grep -v 'grep' && echo 'ON' || screen -dmS onlineapp onlineapp" >> /etc/autostart
+   }
+   IP=$(wget -qO- ipv4.icanhazip.com) >/dev/null 2>&1
+   echo -e "\n\033[1;32m  ONLINE APP ATIVO !\033[0m"
+   echo -e "\033[1;31m \033[1;33mURL de Usuários Online para usar no App\033[0m"
+   echo -e " http://$IP:8888/server/online"
+   sleep 10
+   menu
 }
 function onapp2() {
     clear
     echo -e "\033[1;32mPARANDO O ONLINE APP... \033[0m"
     echo ""
-    fun_stponlineapp() {
+    function fun_stponlineapp() {
+    # Stop Apache2 if it is running on port 80
+    if netstat -tulpn | grep -q ':80.*apache2'; then
+        service apache2 stop >/dev/null 2>&1
         sleep 1
-        screen_pids=$(pgrep -f "onlineapp")
-        if [ -n "$screen_pids" ]; then
-            for pid in $screen_pids; do
-                kill "$pid"
-                sleep 1
-            done
-            screen -wipe >/dev/null
-        fi
+    fi
 
-        [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
-            sed -i '/onlineapp/d' /etc/autostart
-        }
+    # Stop Apache2 if it is running on port 8888
+    if netstat -tulpn | grep -q ':8888.*apache2'; then
+        service apache2 stop >/dev/null 2>&1
+        sleep 1
+    fi
+
+    # Stop Online App
+    screen_pids=$(pgrep -f "onlineapp")
+    if [ -n "$screen_pids" ]; then
+        for pid in $screen_pids; do
+            kill "$pid"
+            sleep 1
+        done
+        screen -wipe >/dev/null
+    fi
+
+    # Remove Online App from autostart if present
+    [[ $(grep -wc "onlineapp" /etc/autostart) != '0' ]] && {
+        sed -i '/onlineapp/d' /etc/autostart
     }
+}
     fun_bar 'fun_stponlineapp' 'sleep 3'
     rm -rf /var/www/html/server >/dev/null 2>&1
     echo -e "\n\033[1;31m ONLINE APP PARADO !\033[0m"
