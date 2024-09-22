@@ -906,6 +906,7 @@ fun_add_teste() {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
             --text "👤 CRIAR TESTE 👤\n\nQuantas horas deve durar? EX: 1" \
             --reply_markup "$(ShellBot.ForceReply)"
+        echo "aguardando_horas=1" > /tmp/status_${callback_query_from_id[$id]}
     elif [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]]; then
         _limTotal=$(grep -w "${callback_query_from_username}" $ativos | awk '{print $4}')
         fun_verif_limite_rev ${callback_query_from_username}
@@ -918,6 +919,7 @@ fun_add_teste() {
             ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
                 --text "👤 CRIAR TESTE 👤\n\nQuantas horas deve durar? EX: 1" \
                 --reply_markup "$(ShellBot.ForceReply)"
+            echo "aguardando_horas=1" > /tmp/status_${callback_query_from_id[$id]}
         }
     else
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -932,7 +934,94 @@ fun_add_teste() {
 
 
 
+# Captura a resposta do usuário para horas e processa a criação do teste
+if [[ -f /tmp/status_${message_from_id[$id]} ]]; then
+    status=$(cat /tmp/status_${message_from_id[$id]})
+    
+    if [[ "$status" == "aguardando_horas=1" ]]; then
+        horas="${message_text}"
 
+        # Verifica se a entrada é um número inteiro válido
+        if ! [[ "$horas" =~ ^[0-9]+$ ]]; then
+            ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+                --text "❌ Por favor, insira um número válido de horas."
+            return 0
+        fi
+
+        # Chama a função para criar o teste passando as horas
+        fun_teste "$horas"
+
+        # Remove o status de aguardando
+        rm /tmp/status_${message_from_id[$id]}
+    fi
+fi
+
+fun_teste() {
+    horas="$1"
+    usuario=$(echo teste$(( RANDOM % 9999 + 1111 )))
+    senha='1234'
+    limite='2'
+
+    # Definindo a data de expiração com base nas horas fornecidas
+    ex_date=$(date '+%d/%m/%C%y' -d " +$horas hours")
+    tuserdate=$(date '+%C%y/%m/%d' -d " +$horas hours")
+
+    [[ -z $horas ]] && {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "❌ Erro tente novamente")" \
+            --parse_mode html
+        return 0
+        _erro='1'
+    }
+
+    # Criar o usuário
+    useradd -M -N -s /bin/false $usuario -e $tuserdate >/dev/null 2>&1
+    (
+        echo "$senha"
+        echo "$senha"
+    ) | passwd $usuario >/dev/null 2>&1
+
+    echo "$senha" >/etc/SSHPlus/senha/$usuario
+    echo "$usuario $limite" >>/root/usuarios.db
+
+    [[ "${message_from_id[$id]}" != "$id_admin" ]] && {
+        echo "$usuario:$senha:$ex_date:$limite" >/etc/bot/revenda/${message_from_username}/usuarios/$usuario
+    }
+
+    dir_teste="/etc/bot/revenda/${message_from_username}/usuarios/$usuario"
+
+    # Criar script de exclusão do usuário teste
+    cat <<-EOF >/etc/SSHPlus/userteste/$usuario.sh
+	#!/bin/bash
+clear
+[[ \$(ps -u "$usuario" | grep -c sshd) != '0' ]] && pkill -u $usuario
+	userdel --force $usuario
+	grep -v ^$usuario[[:space:]] /root/usuarios.db > /tmp/ph; cat /tmp/ph > /root/usuarios.db
+	[[ -e $dir_teste ]] && rm $dir_teste
+	rm /etc/SSHPlus/senha/$usuario > /dev/null 2>&1
+	rm /etc/SSHPlus/userteste/$usuario.sh
+	EOF
+
+    chmod +x /etc/SSHPlus/userteste/$usuario.sh
+
+    # Agora use as horas fornecidas pelo usuário para definir o tempo de expiração
+    echo "/etc/SSHPlus/userteste/$usuario.sh" | at now + $horas hours >/dev/null 2>&1
+
+    [[ "$(ls /etc/bot/arquivos | wc -l)" != '0' ]] && {
+        for arqv in $(ls /etc/bot/arquivos); do
+            ShellBot.sendDocument --chat_id ${message_from_id[$id]} \
+                --document "@/etc/bot/arquivos/$arqv" \
+                --caption "$(echo -e "✅ CRIADO COM SUCESSO ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $horas horas")" \
+                --parse_mode html
+        done
+        return 0
+    } || {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "✅ <b>CRIADO COM SUCESSO</b> ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $horas horas")" \
+            --parse_mode html
+        return 0
+    }
+}
 
 
 
