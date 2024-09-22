@@ -897,10 +897,6 @@ fun_add_teste() {
         ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
             --text "👤 CRIAR TESTE 👤\n\nQuantas horas deve durar EX: 1:" \
             --reply_markup "$(ShellBot.ForceReply)"
-
-        # Captura a resposta do usuário (duração do teste)
-        resposta_usuario=$(ShellBot.getResponse)  # Supondo que você tenha um método para capturar a resposta
-        fun_teste "$resposta_usuario"  # Chama fun_teste passando a duração como argumento
     elif [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]]; then
         _limTotal=$(grep -w "${callback_query_from_username}" $ativos | awk '{print $4}')
         fun_verif_limite_rev ${callback_query_from_username}
@@ -922,22 +918,20 @@ fun_add_teste() {
 }
 
 fun_teste() {
-    local dias="$1"  # Recebe a duração em horas como argumento
-    usuario=$(echo teste$(( RANDOM% + 9999 + 1111 )))
+    usuario=$(echo teste$((RANDOM % +500)))
     senha='1234'
-    limite='2'
-    ex_date=$(date '+%d/%m/%C%y' -d " +${dias} hours")
-    tuserdate=$(date '+%C%y/%m/%d' -d " +${dias} hours")
-
-    [[ -z $dias ]] && {
+    limite='1'
+    t_time=$1
+    ex_date=$(date '+%d/%m/%C%y' -d " +2 days")
+    tuserdate=$(date '+%C%y/%m/%d' -d " +2 days")
+    [[ -z $t_time ]] && {
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
             --text "$(echo -e "❌ Erro tente novamente")" \
             --parse_mode html
         return 0
         _erro='1'
     }
-
-    useradd -M -N -s /bin/false $usuario -e $tuserdate >/dev/null 2>&1
+    /usr/sbin/useradd -M -N -s /bin/false $usuario -e $tuserdate >/dev/null 2>&1
     (
         echo "$senha"
         echo "$senha"
@@ -947,12 +941,9 @@ fun_teste() {
     [[ "${message_from_id[$id]}" != "$id_admin" ]] && {
         echo "$usuario:$senha:$ex_date:$limite" >/etc/bot/revenda/${message_from_username}/usuarios/$usuario
     }
-
     dir_teste="/etc/bot/revenda/${message_from_username}/usuarios/$usuario"
     cat <<-EOF >/etc/SSHPlus/userteste/$usuario.sh
 	#!/bin/bash
-clear
-[[ \$(awk -F" " '{print \$2}' /usr/lib/licence) != "@nzx" ]] && exit 0
 	# USUARIO TESTE
 	[[ \$(ps -u "$usuario" | grep -c sshd) != '0' ]] && pkill -u $usuario
 	userdel --force $usuario
@@ -961,22 +952,20 @@ clear
 	rm /etc/SSHPlus/senha/$usuario > /dev/null 2>&1
 	rm /etc/SSHPlus/userteste/$usuario.sh
 	EOF
-
     chmod +x /etc/SSHPlus/userteste/$usuario.sh
-    echo "/etc/SSHPlus/userteste/$usuario.sh" | at now + ${dias} hours >/dev/null 2>&1
-
-    [[ "${dias}" == '3' ]] && hrs="hora" || hrs="horas"
+    echo "/etc/SSHPlus/userteste/$usuario.sh" | at now + $t_time hour >/dev/null 2>&1
+    [[ "$t_time" == '1' ]] && hrs="hora" || hrs="horas"
     [[ "$(ls /etc/bot/arquivos | wc -l)" != '0' ]] && {
         for arqv in $(ls /etc/bot/arquivos); do
             ShellBot.sendDocument --chat_id ${message_from_id[$id]} \
                 --document "@/etc/bot/arquivos/$arqv" \
-                --caption "$(echo -e "✅ CRIADO COM SUCESSO ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: ${dias} ${hrs}")" \
+                --caption "$(echo -e "✅ Criado com sucesso ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $t_time $hrs")" \
                 --parse_mode html
         done
         return 0
     } || {
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-            --text "$(echo -e "✅ <b>CRIADO COM SUCESSO</b> ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: ${dias} ${hrs}")" \
+            --text "$(echo -e "✅ <b>CRIADO COM SUCESSO</b> ✅\n\nUSUARIO: <code>$usuario</code>\nSENHA: <code>1234</code>\n\n⏳ Expira em: $t_time $hrs")" \
             --parse_mode html
         return 0
     }
