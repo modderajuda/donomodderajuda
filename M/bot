@@ -670,30 +670,37 @@ monitor_ssh() {
 
 fun_verif_user() {
     user=$1
+    
+    # Verifica se o usuário foi fornecido
     [[ -z "$user" ]] && {
         ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-            --text "$(echo -e "Erro")" \
+            --text "$(echo -e "Erro: Nenhum usuário fornecido.")" \
             --parse_mode html
         return 0
     }
-    [[ "${message_from_id[$id]}" == "$id_admin" ]] && {
-        [[ "$(awk -F : '$3 >= 1000 { print $1 }' /etc/passwd | grep -wc $user)" == '0' ]] && {
+
+    # Verifica se quem está executando é o administrador
+    if [[ "${message_from_id[$id]}" == "$id_admin" ]]; then
+        # Verifica se o usuário existe no sistema
+        if [[ "$(awk -F : '$3 >= 1000 { print $1 }' /etc/passwd | grep -wc $user)" == '0' ]]; then
             ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-                --text "$(echo -e ❌ Usuario $user não existe !)" \
+                --text "$(echo -e ❌ Usuario $user não existe no sistema!)" \
                 --parse_mode html
             _erro='1'
             return 0
-        }
-    }
-    [[ -d /etc/bot/revenda/${message_from_username} ]] && {
-        [[ ! -e /etc/bot/revenda/${message_from_username}/usuarios/$user ]] && {
-            ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
-                --text "$(echo -e ❌ Usuario $user nao existe !)" \
-                --parse_mode html
-            _erro='1'
-            return 0
-        }
-    }
+        fi
+    else
+        # Se não for administrador, verifica se o usuário existe na revenda
+        if [[ -d /etc/bot/revenda/${message_from_username} ]]; then
+            if [[ ! -e /etc/bot/revenda/${message_from_username}/usuarios/$user ]]; then
+                ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+                    --text "$(echo -e ❌ Usuario $user nao existe na revenda!)" \
+                    --parse_mode html
+                _erro='1'
+                return 0
+            fi
+        fi
+    fi
 }
 
 fun_down() {
@@ -1621,6 +1628,82 @@ fun_list_rev() {
     fi
 }
 
+fun_ativar_rev() {
+    [[ "$(grep -wc ${callback_query_from_username} $suspensos)" != '0' ]] && {
+        ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+            --text "⚠️ VC ESTA SUSPENSO! CONTATE O ADMINISTRADOR"
+        return 0
+    }
+    [[ "${callback_query_from_id[$id]}" == "$id_admin" ]] || [[ "$(grep -wc ${callback_query_from_username} $ativos)" != '0' ]] && {
+        ShellBot.sendMessage --chat_id ${callback_query_message_chat_id[$id]} \
+            --text "🔒 ATIVAR REVENDEDOR 🔒\n\nInforme o user dele [Ex: @Nome Do Usuario]:" \
+            --reply_markup "$(ShellBot.ForceReply)"
+    } || {
+        ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+            --text "🚫 ACESSO NEGADO 🚫"
+        return 0
+    }
+}
+
+ativar_rev() {
+    _revs=$1
+    [[ -z "$_revs" ]] && {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "Erro")"
+        return 0
+    }
+    [[ ! -d "/etc/bot/suspensos/$_revs" ]] && {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "O USUARIO NAO ESTA SUSPENSO !")" \
+            --parse_mode html
+        return 0
+    }
+    [[ ! -d "/etc/bot/suspensos/$_revs" ]] && {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "O USUARIO NAO EXISTE !")" \
+            --parse_mode html
+        return 0
+    }
+
+    [[ "${message_from_id[$id]}" == "$id_admin" ]] && {
+        # Verifica se existem subrevendedores
+        [[ "$(grep -wc 'SUBREVENDA' /etc/bot/suspensos/$_revs/$_revs)" != '0' ]] && {
+            while read _listsub3; do
+                _usub3="$(echo $_listsub3 | awk '{print $2}')"
+                _dir_users="/etc/bot/suspensos/$_usub3/usuarios"
+                [[ "$(ls $_dir_users | wc -l)" != '0' ]] && {
+                    for _user in $(ls $_dir_users); do
+                        usermod -U $_user  # Desbloqueia o usuário
+                    done
+                }
+                mv /etc/bot/suspensos/$_usub3 /etc/bot/revenda/$_usub3
+                grep -w "$_usub3" $suspensos >> $ativos
+            done <<<"$(grep -w 'SUBREVENDA' /etc/bot/suspensos/$_revs/$_revs)"
+        }
+        # Ativa o revendedor
+        [[ "$(ls /etc/bot/suspensos/$_revs/usuarios | wc -l)" != '0' ]] && {
+            for _user_ in $(ls /etc/bot/suspensos/$_revs/usuarios); do
+                usermod -U $_user_  # Desbloqueia o usuário
+            done
+        }
+        mv /etc/bot/suspensos/$_revs /etc/bot/revenda/$_revs
+        
+        
+        # Remove o revendedor da lista de suspensos
+        sed -i "/\b$_revs\b/d" $suspensos
+        
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "ATIVADO COM SUCESSO")" \
+            --parse_mode html
+        return 0
+    } || {
+        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+            --text "$(echo -e "ACESSO NEGADO")" \
+            --parse_mode html
+        return 0
+    }
+}
+
 fun_susp_rev() {
     [[ "$(grep -wc ${callback_query_from_username} $suspensos)" != '0' ]] && {
         ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
@@ -1846,12 +1929,14 @@ ShellBot.InlineKeyboardButton --button 'menu4' --line 3 --text 'ALTERAR LIMITE R
 ShellBot.InlineKeyboardButton --button 'menu4' --line 4 --text 'ALTERAR DATA REVENDA' --callback_data '_datrev'
 ShellBot.InlineKeyboardButton --button 'menu4' --line 5 --text 'LISTAR REVENDA' --callback_data '_listrev'
 ShellBot.InlineKeyboardButton --button 'menu4' --line 6 --text 'SUSPENDER REVENDA' --callback_data '_susprevendas'
+ShellBot.InlineKeyboardButton --button 'menu4' --line 6 --text 'ATIVAR REVENDA' --callback_data '_ativarrevendas'
 ShellBot.regHandleFunction --function fun_add_revenda --callback_data _addrev
 ShellBot.regHandleFunction --function fun_del_rev --callback_data _delrev
 ShellBot.regHandleFunction --function fun_lim_rev --callback_data _limrev
 ShellBot.regHandleFunction --function fun_dat_rev --callback_data _datrev
 ShellBot.regHandleFunction --function fun_list_rev --callback_data _listrev
 ShellBot.regHandleFunction --function fun_susp_rev --callback _susprevendas
+ShellBot.regHandleFunction --function fun_ativar_rev --callback _ativarrevendas
 unset keyboard4
 keyboard4="$(ShellBot.InlineKeyboardMarkup -b 'menu4')"
 
@@ -2495,6 +2580,18 @@ while :; do
                         break
                     }
                     susp_rev $_VAR1
+                    break
+                    ;;
+                    # ATIVAR REVENDEDOR
+                '🔒 ATIVAR REVENDEDOR 🔒\n\nInforme o user dele [Ex: @Nome Do Usuario]:')
+                    _VAR1=$(echo -e ${message_text[$id]} | awk -F '@' {'print $2'})
+                    [[ -z $_VAR1 ]] && {
+                        ShellBot.sendMessage --chat_id ${message_chat_id[$id]} \
+                            --text "$(echo -e "❌ Revendedor ${message_text[$id]} nao existe")" \
+                            --parse_mode html
+                        break
+                    }
+                    ativar_rev $_VAR1
                     break
                     ;;
                 '👤 CRIAR TESTE 👤\n\nQuantas horas deve durar EX: 1:')
