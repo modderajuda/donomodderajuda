@@ -1706,7 +1706,7 @@ elif [[ "$resposta" = '3' ]]; then
         echo -e "\E[41;1;37m          WEBSOCKET SECURITY         \E[0m"
         echo ""
         fun_securityoff() {
-            for pidsecurity in $(screen -ls | grep ".security" | awk {'print $1'}); do
+            for pidsecurity in $(screen -ls | grep "security" | awk {'print $1'}); do
                 screen -r -S "$pidsecurity" -X quit
             done
             [[ $(grep -wc "security" /etc/autostart) != '0' ]] && {
@@ -1739,6 +1739,7 @@ elif [[ "$resposta" = '3' ]]; then
         verif_ptrs $portaws
         fun_inisecurity() {
     sleep 1
+    screen -ls | grep security | awk '{print $1}' | xargs -I {} screen -S {} -X quit
     screen -dmS security /etc/SSHPlus/security -proxy_port 0.0.0.0:$portaws -msg=SECURITY
     [[ $(grep -wc "security" /etc/autostart) = '0' ]] && {
         echo -e "netstat -tlpn | grep -w $portaws > /dev/null || {  screen -r -S 'security' -X quit;  screen -dmS security /etc/SSHPlus/security -proxy_port 0.0.0.0:$portaws -msg=SECURITY; }" >>/etc/autostart
