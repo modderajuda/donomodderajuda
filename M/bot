@@ -1250,6 +1250,47 @@ fun_exp_user() {
     fi
 }
 
+_senharoot() {
+    if [[ "${callback_query_from_id[$id]}" == "$id_admin" ]]; then
+        # Solicita a nova senha
+        ShellBot.sendMessage --chat_id ${callback_query_from_id[$id]} \
+            --text "Digite a nova senha para o usuário root:"
+        # Armazena a resposta do usuário como a nova senha
+        ShellBot.waitUserInput --chat_id ${callback_query_from_id[$id]}
+        new_password=${user_input}
+
+        # Solicita a confirmação da nova senha
+        ShellBot.sendMessage --chat_id ${callback_query_from_id[$id]} \
+            --text "Confirme a nova senha digitando novamente:"
+        ShellBot.waitUserInput --chat_id ${callback_query_from_id[$id]}
+        confirm_password=${user_input}
+
+        # Verifica se as senhas coincidem
+        if [[ "$new_password" == "$confirm_password" ]]; then
+            # Altera a senha root
+            echo "root:$new_password" | chpasswd
+            if [[ $? -eq 0 ]]; then
+                # Obtém o IP da máquina
+                machine_ip=$(hostname -I | awk '{print $1}')
+                # Envia mensagem de sucesso com usuário, senha e IP
+                ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+                    --text "✅ Senha root alterada com sucesso!\nUsuário: root\nNova senha: $new_password\nIP da máquina: $machine_ip"
+            else
+                ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+                    --text "❌ Erro ao alterar a senha root. Tente novamente."
+            fi
+        else
+            ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+                --text "❌ As senhas não coincidem. Tente novamente."
+        fi
+        return 0
+    else
+        ShellBot.answerCallbackQuery --callback_query_id ${callback_query_id[$id]} \
+            --text "$(echo -e 🚫 ACESSO NEGADO 🚫)"
+        return 0
+    fi
+}
+
 relatorio_rev() {
     if [[ "${callback_query_from_id[$id]}" = "$id_admin" ]]; then
         _ons=$(ps -x | grep sshd | grep -v root | grep priv | wc -l)
@@ -2041,6 +2082,7 @@ ShellBot.InlineKeyboardButton --button 'menu1' --line 8 --text 'ALTERAR DATA' --
 ShellBot.InlineKeyboardButton --button 'menu1' --line 9 --text 'USUARIOS ONLINE' --callback_data '_monitor'
 ShellBot.InlineKeyboardButton --button 'menu1' --line 10 --text 'INFO USUARIOS' --callback_data '_verusers'
 ShellBot.InlineKeyboardButton --button 'menu1' --line 11 --text 'EXPIRADOS' --callback_data '_expirados'
+ShellBot.InlineKeyboardButton --button 'menu1' --line 12 --text 'ALTERAR SENHA ROOT' --callback_data '_senharoot'
 ShellBot.InlineKeyboardButton --button 'menu1' --line 1 --text 'INFO VPS' --callback_data '_infovps'
 ShellBot.InlineKeyboardButton --button 'menu1' --line 2 --text 'OTIMIZAR' --callback_data '_otimizar'
 ShellBot.InlineKeyboardButton --button 'menu1' --line 3 --text 'ARQUIVOS' --callback_data '_arqdown'
